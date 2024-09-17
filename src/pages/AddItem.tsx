@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { useState } from "react";
 import ProductDialog from "./ProductDialog";
 import { Product } from "../types/Product.type";
@@ -15,8 +15,12 @@ const AddItem = ({
   };
 
   return (
-    <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
+    <Box sx={{width: '100%', display: 'flex'}}>
+      <Button
+        variant="outlined"
+        onClick={handleClickOpen}
+        sx={{ width: "100%", m: 2 }}
+      >
         Adicionar Item
       </Button>
       <ProductDialog
@@ -24,7 +28,7 @@ const AddItem = ({
         open={open}
         closeModal={() => setOpen(false)}
       />
-    </div>
+    </Box>
   );
 };
 

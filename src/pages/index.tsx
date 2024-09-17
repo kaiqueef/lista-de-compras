@@ -12,7 +12,9 @@ export default function Page() {
 
   return (
     <>
-      <Typography variant="h2">Lista de Compras</Typography>
+      <Typography variant="h4" component={"h1"} textAlign={"center"}>
+        Lista de Compras
+      </Typography>
       <ShoppingList setNewProduct={setNewProduct} />
       <AddItem setNewProduct={setNewProduct} />
     </>

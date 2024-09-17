@@ -91,6 +91,7 @@ const ShoppingList = ({
               disablePadding
               style={{
                 textDecoration: isChecked(product) ? "line-through" : "none",
+                opacity: isChecked(product) ? 0.5 : 1,
               }}
             >
               <ListItemButton>
