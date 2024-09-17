@@ -1,4 +1,4 @@
-import { Product } from "@/types/productList.type";
+import { Product } from "@/types/Product.type";
 
 function isBrowser(): boolean {
   return (
