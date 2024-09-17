@@ -10,6 +10,7 @@ import {
   TextField,
 } from "@mui/material";
 import { useEffect, useState } from "react";
+import { Product } from "../types/Product.type";
 
 export default function ProductDialog({
   setNewProduct,

@@ -1,6 +1,7 @@
 import { Button } from "@mui/material";
 import { useState } from "react";
 import ProductDialog from "./ProductDialog";
+import { Product } from "../types/Product.type";
 
 const AddItem = ({
   setNewProduct,

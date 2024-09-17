@@ -3,6 +3,7 @@ import { Box, Typography } from "@mui/material";
 import ShoppingList from "./ShoppingList";
 import AddItem from "./AddItem";
 import { useEffect, useState } from "react";
+import { Product } from "../types/Product.type";
 
 export default function Page() {
   //TODO:: CHECK IF THERE IS A LIST

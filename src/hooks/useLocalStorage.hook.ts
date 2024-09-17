@@ -1,3 +1,5 @@
+import { Product } from "@/types/productList.type";
+
 function isBrowser(): boolean {
   return (
     typeof window !== "undefined" && typeof window.document !== "undefined"
