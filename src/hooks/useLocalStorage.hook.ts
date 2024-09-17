@@ -25,11 +25,8 @@ export function useLocalStorage() {
   const appendProduct = (key: string, product: Product) => {
     if (!isBrowser()) return;
     const item = window.localStorage.getItem(key);
-    if (!item) return;
-    window.localStorage.setItem(
-      key,
-      JSON.stringify([...JSON.parse(item), product])
-    );
+    const newItem = item ? [...JSON.parse(item), product] : [product];
+    window.localStorage.setItem(key, JSON.stringify(newItem));
   };
 
   const removeProduct = (key: string, productName: string) => {
