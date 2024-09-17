@@ -1,14 +1,19 @@
 import { useLocalStorage } from "@/hooks/useLocalStorage.hook";
-import { Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
+import ShoppingList from "./ShoppingList";
+import AddItem from "./AddItem";
+import { useEffect, useState } from "react";
 
 export default function Page() {
-  const listeTeste = [{ nome: "banana", date: new Date() }];
-  const { set, get } = useLocalStorage();
-  set("lista", listeTeste);
   //TODO:: CHECK IF THERE IS A LIST
+
+  const [_newProduct, setNewProduct] = useState<Product>();
+
   return (
     <>
       <Typography variant="h2">Lista de Compras</Typography>
+      <ShoppingList setNewProduct={setNewProduct} />
+      <AddItem setNewProduct={setNewProduct} />
     </>
   );
 }
