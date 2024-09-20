@@ -26,18 +26,18 @@ function ShoppingList({
 }) {
   const { get, localProduct } = useLocalStorage();
 
-  const remoteStorage = new RemoteStorage({ userId: "kaique" }); //TODO:: CHECAR SE EXISTE USERID NO LOCALSTORAGE
+  // const remoteStorage = new RemoteStorage({ userId: "kaique" }); //TODO:: CHECAR SE EXISTE USERID NO LOCALSTORAGE
   let list: Product[] | null = get("lista");
   if (!list) return;
 
-  async function getList() {
-    const remoteList = (await remoteStorage.getItem("lista")) as Product[];
-    if (remoteList) list = remoteList;
-  }
+  // async function getList() {
+  //   const remoteList = (await remoteStorage.getItem("lista")) as Product[];
+  //   if (remoteList) list = remoteList;
+  // }
 
-  useEffect(() => {
-    getList();
-  }, []);
+  // useEffect(() => {
+  //   getList();
+  // }, []);
 
   const [open, setOpen] = useState(false);
   const [openEdit, setOpenEdit] = useState<Product | null>(null);

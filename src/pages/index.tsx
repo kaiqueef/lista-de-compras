@@ -9,20 +9,20 @@ import { RemoteStorage } from "remote-storage";
 export default function Page() {
   //TODO:: CHECK IF THERE IS A REMOTE LIST?
   const [_newProduct, setNewProduct] = useState<Product>();
-  const remoteStorage = new RemoteStorage({ userId: "kaique" }); //TODO:: CHECAR SE EXISTE USERID NO LOCALSTORAGE
+  // const remoteStorage = new RemoteStorage({ userId: "kaique" }); //TODO:: CHECAR SE EXISTE USERID NO LOCALSTORAGE
   //TODO:: DEIXAR USUÁRIO COLOCAR SEU USERID
 
   const { get, set } = useLocalStorage();
 
-  async function saveValues() {
-    const list: Product[] | null = get("lista");
-    await remoteStorage.setItem("lista", list);
-  }
+  // async function saveValues() {
+  //   const list: Product[] | null = get("lista");
+  //   await remoteStorage.setItem("lista", list);
+  // }
 
-  async function loadList() {
-    const remoteList = (await remoteStorage.getItem("lista")) as Product[];
-    if (remoteList) set("lista", remoteList);
-  }
+  // async function loadList() {
+  //   const remoteList = (await remoteStorage.getItem("lista")) as Product[];
+  //   if (remoteList) set("lista", remoteList);
+  // }
 
   return (
     <>
@@ -31,8 +31,8 @@ export default function Page() {
       </Typography>
       <ShoppingList setNewProduct={setNewProduct} />
       <AddItem setNewProduct={setNewProduct} />
-      <Button onClick={saveValues}>Salvar lista</Button>
-      <Button onClick={loadList}>Carregar lista</Button>
+      {/* <Button onClick={saveValues}>Salvar lista</Button>
+      <Button onClick={loadList}>Carregar lista</Button> */}
     </>
   );
 }
