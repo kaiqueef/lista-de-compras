@@ -12,20 +12,32 @@ import {
   ListItemButton,
   ListItemText,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import ProductDialog from "./ProductDialog";
 import { Product } from "../types/Product.type";
+import { RemoteStorage } from "remote-storage";
 
-const ShoppingList = ({
+function ShoppingList({
   setNewProduct,
 }: {
   setNewProduct: (product: Product) => void;
-}) => {
+}) {
   const { get, localProduct } = useLocalStorage();
-  const list: Product[] | null = get("lista");
+
+  const remoteStorage = new RemoteStorage({ userId: "kaique" }); //TODO:: CHECAR SE EXISTE USERID NO LOCALSTORAGE
+  let list: Product[] | null = get("lista");
   if (!list) return;
+
+  async function getList() {
+    const remoteList = (await remoteStorage.getItem("lista")) as Product[];
+    if (remoteList) list = remoteList;
+  }
+
+  useEffect(() => {
+    getList();
+  }, []);
 
   const [open, setOpen] = useState(false);
   const [openEdit, setOpenEdit] = useState<Product | null>(null);
@@ -143,6 +155,6 @@ const ShoppingList = ({
       />
     </>
   );
-};
+}
 
 export default ShoppingList;
