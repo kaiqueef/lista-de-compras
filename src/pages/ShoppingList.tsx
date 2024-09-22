@@ -18,6 +18,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import ProductDialog from "./ProductDialog";
 import { Product } from "../types/Product.type";
 import { RemoteStorage } from "remote-storage";
+import FavoriteButton from "./FavoriteButton";
 
 function ShoppingList({
   setNewProduct,
@@ -111,6 +112,7 @@ function ShoppingList({
                   onClick={() => handleToggle(product)}
                   primary={product.name}
                 />
+                <FavoriteButton product={product} />
                 <IconButton
                   edge="end"
                   aria-label="edit"
