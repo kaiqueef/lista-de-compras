@@ -37,47 +37,45 @@ export default function EditProduct() {
   }
 
   useEffect(() => {
-    setName(openEdit?.name ?? '');
+    setName(openEdit?.name ?? "");
     setPriority(openEdit?.priority);
-    setRenovalInDays(openEdit?.renovalInDays ?? '');
+    setRenovalInDays(openEdit?.renovalInDays ?? "");
   }, [openEdit]);
 
   return (
-    <>
-      <ProductDialog
-        title="Edite o produto"
-        closeModal={closeModal}
-        isOpen={openDialogType === 'edit'}
-        handleConfirm={handleConfirm}
-        disableConfirm={!renovalInDays || !name}
-      >
-        <TextField
-          autoFocus
-          margin="dense"
-          label="Nome do produto"
-          type="text"
-          fullWidth
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <TextField
-          margin="dense"
-          label="Frequencia de compra (dias)" // TODO:: SE NÃO QUISER, PODE DEIXAR VALOR GIGANTE (COLOCAR FLAG?)
-          type="number"
-          fullWidth
-          value={renovalInDays}
-          onChange={(e) => setRenovalInDays(e.target.value)}
-        />
-        <FormControlLabel
-          control={
-            <Checkbox
-              checked={priority}
-              onChange={(e) => setPriority(e.target.checked)}
-            />
-          }
-          label="Prioritário"
-        />
-      </ProductDialog>
-    </>
+    <ProductDialog
+      title="Edite o produto"
+      closeModal={closeModal}
+      isOpen={openDialogType === "edit"}
+      handleConfirm={handleConfirm}
+      disableConfirm={!renovalInDays || !name}
+    >
+      <TextField
+        autoFocus
+        margin="dense"
+        label="Nome do produto"
+        type="text"
+        fullWidth
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <TextField
+        margin="dense"
+        label="Frequencia de compra (dias)" // TODO:: SE NÃO QUISER, PODE DEIXAR VALOR GIGANTE (COLOCAR FLAG?)
+        type="number"
+        fullWidth
+        value={renovalInDays}
+        onChange={(e) => setRenovalInDays(e.target.value)}
+      />
+      <FormControlLabel
+        control={
+          <Checkbox
+            checked={priority}
+            onChange={(e) => setPriority(e.target.checked)}
+          />
+        }
+        label="Prioritário"
+      />
+    </ProductDialog>
   );
 }

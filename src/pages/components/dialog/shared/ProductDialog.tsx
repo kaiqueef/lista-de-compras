@@ -4,9 +4,8 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Modal,
 } from "@mui/material";
-import { useEffect, useState } from "react";
-import { Product } from "../../../../types/Product.type";
 import getShoppingContext from "@/context/getShoppingContext";
 
 export default function ProductDialog({
@@ -28,21 +27,23 @@ export default function ProductDialog({
   const isEditable = !!openEdit;
   //TODO:: CONSEGUIR VER QUANDO FOI A ULTIMA VEZ QUE COMPROU PARA ATUALIZAR A FREQUENCIA DE COMPRA
   return (
-    <Dialog open={isOpen} onClose={closeModal}>
-      {/* <Dialog open={!!openEdit} onClose={closeModal}> */}
-      <DialogTitle>
-        {/* {isEditable ? "Edite o produto" : "Adicione um novo item"}{" "} */}
-        {title}
-      </DialogTitle>
-      <DialogContent>{children}</DialogContent>
+    <Modal open={isOpen} onClose={closeModal}>
+      <Dialog open={isOpen} onClose={closeModal}>
+        {/* <Dialog open={!!openEdit} onClose={closeModal}> */}
+        <DialogTitle>
+          {/* {isEditable ? "Edite o produto" : "Adicione um novo item"}{" "} */}
+          {title}
+        </DialogTitle>
+        <DialogContent>{children}</DialogContent>
 
-      <DialogActions>
-        <Button onClick={closeModal}>Cancelar</Button>
-        <Button onClick={handleConfirm} disabled={disableConfirm}>
-          {/* <Button onClick={handleAdd} disabled={!renovalInDays || !name}> */}
-          {isEditable ? "Atualizar" : "Adicionar"}
-        </Button>
-      </DialogActions>
-    </Dialog>
+        <DialogActions>
+          <Button onClick={closeModal}>Cancelar</Button>
+          <Button onClick={handleConfirm} disabled={disableConfirm}>
+            {/* <Button onClick={handleAdd} disabled={!renovalInDays || !name}> */}
+            {isEditable ? "Atualizar" : "Adicionar"}
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </Modal>
   );
 }
