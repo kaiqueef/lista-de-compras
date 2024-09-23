@@ -22,56 +22,9 @@ export function useLocalStorage() {
     window.localStorage.removeItem(key);
   };
 
-  const appendProduct = (key: string, product: Product) => {
-    if (!isBrowser()) return;
-    const item = window.localStorage.getItem(key);
-    const newItem = item ? [...JSON.parse(item), product] : [product];
-    window.localStorage.setItem(key, JSON.stringify(newItem));
-  };
-
-  const removeProduct = (key: string, productName: string) => {
-    if (!isBrowser()) return;
-    const list: Product[] = JSON.parse(window.localStorage.getItem(key) ?? "");
-    if (!list) return;
-    const newList = list.filter((product) => product.name !== productName);
-    set(key, newList);
-  };
-
-  const editProduct = (
-    key: string,
-    oldProduct: Product,
-    newProduct: Product
-  ) => {
-    if (!isBrowser()) return;
-    removeProduct(key, oldProduct.name);
-    appendProduct(key, newProduct);
-  };
-
-  const updateLastBuy = (
-    key: string,
-    product: Product,
-    removeLastBuy = false
-  ) => {
-    if (!isBrowser()) return;
-    const currentDate = new Date();
-    const newProduct: Product = {
-      ...product,
-      lastBuy: removeLastBuy ? null : currentDate.toISOString(),
-    };
-    editProduct(key, product, newProduct);
-  };
-
-  const localProduct = {
-    append: appendProduct,
-    edit: editProduct,
-    remove: removeProduct,
-    updateLastBuy: updateLastBuy,
-  };
-
   return {
     get,
     set,
     remove,
-    localProduct,
   };
 }

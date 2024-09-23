@@ -12,40 +12,34 @@ import {
   ListItemButton,
   ListItemText,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import ProductDialog from "./ProductDialog";
 import { Product } from "../types/Product.type";
 import { RemoteStorage } from "remote-storage";
-import FavoriteButton from "./FavoriteButton";
+import Favorite from "./components/buttons/Favorite";
+import getShoppingContext from "@/context/getShoppingContext";
+import useIsClient from "@/hooks/useIsClient";
 
-function ShoppingList({
-  setNewProduct,
-}: {
-  setNewProduct: (product: Product) => void;
-}) {
-  const { get, localProduct } = useLocalStorage();
-
-  // const remoteStorage = new RemoteStorage({ userId: "kaique" }); //TODO:: CHECAR SE EXISTE USERID NO LOCALSTORAGE
-  let list: Product[] | null = get("lista");
-  if (!list) return;
-
-  // async function getList() {
-  //   const remoteList = (await remoteStorage.getItem("lista")) as Product[];
-  //   if (remoteList) list = remoteList;
-  // }
-
-  // useEffect(() => {
-  //   getList();
-  // }, []);
+function ShoppingList() {
+  const isClient = useIsClient(); //TODO:: IMPROVE THIS CODE
+  if (!isClient) {
+    return null;
+  }
+  const {
+    shoppingList,
+    setNewProduct,
+    openEdit,
+    setOpenEdit,
+    localProductList,
+  } = getShoppingContext();
+  if (!shoppingList) return;
 
   const [open, setOpen] = useState(false);
-  const [openEdit, setOpenEdit] = useState<Product | null>(null);
   const [itemToDelete, setItemToDelete] = useState("");
 
   const handleToggle = (product: Product) => {
-    localProduct.updateLastBuy("lista", product, isChecked(product));
+    localProductList.updateLastBuy("lista", product, isChecked(product));
     setNewProduct(product);
   };
 
@@ -60,7 +54,7 @@ function ShoppingList({
   };
 
   const handleDeleteConfirm = () => {
-    localProduct.remove("lista", itemToDelete);
+    localProductList.remove("lista", itemToDelete);
     handleClose();
   };
 
@@ -70,7 +64,7 @@ function ShoppingList({
       isDifferenceGreaterThan(product.lastBuy, product.renovalInDays)
     );
 
-  const sortedList = list.sort((a, b) => {
+  const sortedList = shoppingList.sort((a, b) => {
     if (isChecked(a) === isChecked(b)) {
       if (a.priority === b.priority) {
         return a.name.localeCompare(b.name);
@@ -112,7 +106,7 @@ function ShoppingList({
                   onClick={() => handleToggle(product)}
                   primary={product.name}
                 />
-                <FavoriteButton product={product} />
+                <Favorite product={product} />
                 <IconButton
                   edge="end"
                   aria-label="edit"
@@ -149,12 +143,6 @@ function ShoppingList({
           </Button>
         </DialogActions>
       </Dialog>
-      <ProductDialog
-        setNewProduct={setNewProduct}
-        open={!!openEdit}
-        closeModal={() => setOpenEdit(null)}
-        editProduct={openEdit}
-      />
     </>
   );
 }
