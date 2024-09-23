@@ -27,23 +27,21 @@ export default function ProductDialog({
   const isEditable = !!openEdit;
   //TODO:: CONSEGUIR VER QUANDO FOI A ULTIMA VEZ QUE COMPROU PARA ATUALIZAR A FREQUENCIA DE COMPRA
   return (
-    <Modal open={isOpen} onClose={closeModal}>
-      <Dialog open={isOpen} onClose={closeModal}>
-        {/* <Dialog open={!!openEdit} onClose={closeModal}> */}
-        <DialogTitle>
-          {/* {isEditable ? "Edite o produto" : "Adicione um novo item"}{" "} */}
-          {title}
-        </DialogTitle>
-        <DialogContent>{children}</DialogContent>
+    <Dialog open={isOpen} onClose={closeModal} sx={{height: '100vh'}}>
+      {/* <Dialog open={!!openEdit} onClose={closeModal}> */}
+      <DialogTitle>
+        {/* {isEditable ? "Edite o produto" : "Adicione um novo item"}{" "} */}
+        {title}
+      </DialogTitle>
+      <DialogContent>{children}</DialogContent>
 
-        <DialogActions>
-          <Button onClick={closeModal}>Cancelar</Button>
-          <Button onClick={handleConfirm} disabled={disableConfirm}>
-            {/* <Button onClick={handleAdd} disabled={!renovalInDays || !name}> */}
-            {isEditable ? "Atualizar" : "Adicionar"}
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </Modal>
+      <DialogActions>
+        <Button onClick={closeModal}>Cancelar</Button>
+        <Button onClick={handleConfirm} disabled={disableConfirm}>
+          {/* <Button onClick={handleAdd} disabled={!renovalInDays || !name}> */}
+          {isEditable ? "Atualizar" : "Adicionar"}
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 }
