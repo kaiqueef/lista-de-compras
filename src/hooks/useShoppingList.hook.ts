@@ -19,11 +19,12 @@ const useShoppingList = (): useShoppingListType => {
     if (openEdit?.name === product?.name) return;
     if (openEdit === null && product === null) return;
     _setOpenEdit(product);
-    setOpenDialogType("edit");
+    if (product) setOpenDialogType("edit");
   }
 
   function closeModal() {
     setOpenDialogType(null);
+    setOpenEdit(null);
   }
 
   function setNewProductList(key: string, newList: Product[]) {

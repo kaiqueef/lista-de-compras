@@ -9,12 +9,15 @@ export default function EditProduct() {
     openEdit,
     setNewProduct,
     setOpenDialogType,
+    openDialogType,
     closeModal,
     localProductList,
   } = getShoppingContext();
-  const [name, setName] = useState("");
-  const [priority, setPriority] = useState(false);
-  const [renovalInDays, setRenovalInDays] = useState("");
+  const [name, setName] = useState(openEdit?.name ?? "");
+  const [priority, setPriority] = useState(openEdit?.priority);
+  const [renovalInDays, setRenovalInDays] = useState(
+    openEdit?.renovalInDays ?? ""
+  );
 
   function handleConfirm() {
     const newProduct: Product = {
@@ -33,12 +36,18 @@ export default function EditProduct() {
     setOpenDialogType(null);
   }
 
+  useEffect(() => {
+    setName(openEdit?.name ?? '');
+    setPriority(openEdit?.priority);
+    setRenovalInDays(openEdit?.renovalInDays ?? '');
+  }, [openEdit]);
+
   return (
     <>
       <ProductDialog
         title="Edite o produto"
         closeModal={closeModal}
-        isOpen={!!openEdit}
+        isOpen={!!openDialogType}
         handleConfirm={handleConfirm}
         disableConfirm={!renovalInDays || !name}
       >

@@ -24,7 +24,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <ShoppingListProvider>
-      <Component {...pageProps} />;
+      <Component {...pageProps} />
     </ShoppingListProvider>
   );
 }
