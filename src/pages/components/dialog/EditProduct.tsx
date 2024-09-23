@@ -47,7 +47,7 @@ export default function EditProduct() {
       <ProductDialog
         title="Edite o produto"
         closeModal={closeModal}
-        isOpen={!!openDialogType}
+        isOpen={openDialogType === 'edit'}
         handleConfirm={handleConfirm}
         disableConfirm={!renovalInDays || !name}
       >

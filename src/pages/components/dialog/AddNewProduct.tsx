@@ -37,7 +37,7 @@ export default function AddNewProduct() {
     <ProductDialog
       title="Adicionar um produto"
       closeModal={() => setOpenDialogType(null)}
-      isOpen={!!openDialogType}
+      isOpen={openDialogType === 'add'}
       handleConfirm={handleConfirm}
       disableConfirm={!renovalInDays || !name}
     >

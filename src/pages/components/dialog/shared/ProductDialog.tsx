@@ -26,19 +26,6 @@ export default function ProductDialog({
 }) {
   const { openEdit } = getShoppingContext();
   const isEditable = !!openEdit;
-  const editProduct = openEdit as Product;
-  const [name, setName] = useState("");
-  const [priority, setPriority] = useState(false);
-  const [renovalInDays, setRenovalInDays] = useState("");
-
-  useEffect(() => {
-    if (isEditable) {
-      setName(editProduct?.name);
-      setPriority(!!editProduct?.priority);
-      setRenovalInDays(`${editProduct.renovalInDays}`);
-    }
-  }, [editProduct]);
-
   //TODO:: CONSEGUIR VER QUANDO FOI A ULTIMA VEZ QUE COMPROU PARA ATUALIZAR A FREQUENCIA DE COMPRA
   return (
     <Dialog open={isOpen} onClose={closeModal}>
