@@ -1,15 +1,10 @@
 import { Checkbox, FormControlLabel, TextField } from "@mui/material";
 import ProductDialog from "./shared/ProductDialog";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import getShoppingContext from "@/context/getShoppingContext";
 import { Product } from "@/types/Product.type";
-import useIsClient from "@/hooks/useIsClient";
 
 export default function EditProduct() {
-  const isClient = useIsClient(); //TODO:: IMPROVE THIS CODE
-  if (!isClient) {
-    return null;
-  }
   const {
     openEdit,
     setNewProduct,

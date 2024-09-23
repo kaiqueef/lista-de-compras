@@ -8,7 +8,6 @@ import {
 import { useEffect, useState } from "react";
 import { Product } from "../../../../types/Product.type";
 import getShoppingContext from "@/context/getShoppingContext";
-import useIsClient from "@/hooks/useIsClient";
 
 export default function ProductDialog({
   title,
@@ -25,10 +24,6 @@ export default function ProductDialog({
   disableConfirm: boolean;
   children: any;
 }) {
-  const isClient = useIsClient(); //TODO:: IMPROVE THIS CODE
-  if (!isClient) {
-    return null;
-  }
   const { openEdit } = getShoppingContext();
   const isEditable = !!openEdit;
   const editProduct = openEdit as Product;

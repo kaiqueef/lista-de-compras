@@ -1,14 +1,8 @@
 import { Box, Button } from "@mui/material";
 import getShoppingContext from "@/context/getShoppingContext";
 import AddNewProduct from "../dialog/AddNewProduct";
-import useIsClient from "@/hooks/useIsClient";
 
 const AddItem = () => {
-  const isClient = useIsClient();
-  if (!isClient) {
-    return null;
-  }
-
   const { setOpenDialogType } = getShoppingContext();
 
   const handleClickOpen = () => {

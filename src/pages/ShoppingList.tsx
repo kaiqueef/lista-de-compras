@@ -12,20 +12,15 @@ import {
   ListItemButton,
   ListItemText,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Product } from "../types/Product.type";
 import { RemoteStorage } from "remote-storage";
 import Favorite from "./components/buttons/Favorite";
 import getShoppingContext from "@/context/getShoppingContext";
-import useIsClient from "@/hooks/useIsClient";
 
 function ShoppingList() {
-  const isClient = useIsClient(); //TODO:: IMPROVE THIS CODE
-  if (!isClient) {
-    return null;
-  }
   const {
     shoppingList,
     setNewProduct,

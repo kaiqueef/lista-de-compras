@@ -1,9 +1,7 @@
 import { Typography } from "@mui/material";
 import ShoppingList from "./ShoppingList";
 import AddItem from "./components/buttons/AddItem";
-import { RemoteStorage } from "remote-storage";
 import EditProduct from "./components/dialog/EditProduct";
-import { ShoppingListProvider } from "@/context/shoppingListContext";
 
 export default function Page() {
   //TODO:: CHECK IF THERE IS A REMOTE LIST?
@@ -23,16 +21,14 @@ export default function Page() {
 
   return (
     <>
-      <ShoppingListProvider>
-        <Typography variant="h4" component={"h1"} textAlign={"center"}>
-          Lista de Compras
-        </Typography>
-        <ShoppingList />
-        <EditProduct />
-        <AddItem />
-        {/* <Button onClick={saveValues}>Salvar lista</Button> */}
-        {/* <Button onClick={loadList}>Carregar lista</Button> */}
-      </ShoppingListProvider>
+      <Typography variant="h4" component={"h1"} textAlign={"center"}>
+        Lista de Compras
+      </Typography>
+      <ShoppingList />
+      <EditProduct />
+      <AddItem />
+      {/* <Button onClick={saveValues}>Salvar lista</Button> */}
+      {/* <Button onClick={loadList}>Carregar lista</Button> */}
     </>
   );
 }

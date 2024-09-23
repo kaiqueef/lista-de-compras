@@ -29,9 +29,6 @@ const useShoppingList = (): useShoppingListType => {
   function setNewProductList(key: string, newList: Product[]) {
     set(key, newList);
     setShoppingList(newList);
-    console.log("shoppingList: ", shoppingList);
-    console.log("newList: ", newList);
-    console.log("new product!");
   }
 
   const appendProduct = (key: string, product: Product) => {
@@ -44,7 +41,6 @@ const useShoppingList = (): useShoppingListType => {
     const list: Product[] = get(key);
     if (!list) return;
     const newList = list.filter((product) => product.name !== productName);
-    console.log("newList: ", newList);
     setNewProductList(key, newList);
   };
 
