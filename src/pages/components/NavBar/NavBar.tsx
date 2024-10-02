@@ -79,13 +79,6 @@ export default function NavBar({
     closeMenu();
   }
 
-  async function saveListTemp() {
-    const remoteStorage = new RemoteStorage({ userId: "daiany-e-kaique" });
-    const list: Product[] | null = get("lista");
-    await remoteStorage.setItem("lista", list); //TODO:: ADICIONAR TOAST
-    closeModal();
-  }
-
   return (
     <Stack sx={{ justifyContent: "center", alignItems: "center" }}>
       <AppBar
@@ -149,7 +142,6 @@ export default function NavBar({
             {currentRemoteList && (
               <MenuItem onClick={saveList}>Salvar listas</MenuItem>
             )}
-            <MenuItem onClick={saveListTemp}>Salvar lista TEMP</MenuItem>
           </Menu>
         </Box>
       </ClickAwayListener>
