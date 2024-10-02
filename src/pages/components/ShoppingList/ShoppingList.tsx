@@ -12,15 +12,14 @@ import {
   ListItemButton,
   ListItemText,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { Product } from "../types/Product.type";
-import { RemoteStorage } from "remote-storage";
-import Favorite from "./components/buttons/Favorite";
+import { Product } from "../../../types/Product.type";
+import Favorite from "../buttons/Favorite";
 import getShoppingContext from "@/context/getShoppingContext";
 
-function ShoppingList() {
+function ShoppingList({ hoje = false }) {
   const {
     shoppingList,
     setNewProduct,
@@ -68,6 +67,22 @@ function ShoppingList() {
     }
     return isChecked(a) ? 1 : -1;
   });
+
+  const currentDate = new Date().toISOString().split("T")[0];
+  let list;
+
+  if (hoje) {
+    const filteredList = sortedList.filter(
+      (item) =>
+        !isChecked(item) ||
+        item.lastBuy === null ||
+        item.lastBuy.split("T")[0] === currentDate
+    );
+    list = filteredList;
+  } else {
+    list = sortedList;
+  }
+
   //TODO:: ADD TOAST WHEN DELETING ITEM
 
   function isDifferenceGreaterThan(
@@ -87,7 +102,7 @@ function ShoppingList() {
   return (
     <>
       <List>
-        {sortedList.map((product) => {
+        {list.map((product) => {
           return (
             <ListItem
               disablePadding
@@ -107,14 +122,14 @@ function ShoppingList() {
                   aria-label="edit"
                   onClick={() => setOpenEdit(product)}
                 >
-                  <EditIcon sx={{ color: "#AAA" }} />
+                  <EditIcon sx={{ color: "primary.main" }} />
                 </IconButton>
                 <IconButton
                   edge="end"
                   aria-label="delete"
                   onClick={() => handleDeleteClick(product.name)}
                 >
-                  <DeleteIcon sx={{ color: "#AAA" }} />
+                  <DeleteIcon sx={{ color: "primary.main" }} />
                 </IconButton>
               </ListItemButton>
             </ListItem>

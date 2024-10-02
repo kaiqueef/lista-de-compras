@@ -27,7 +27,7 @@ export default function ProductDialog({
   const isEditable = !!openEdit;
   //TODO:: CONSEGUIR VER QUANDO FOI A ULTIMA VEZ QUE COMPROU PARA ATUALIZAR A FREQUENCIA DE COMPRA
   return (
-    <Dialog open={isOpen} onClose={closeModal} sx={{height: '100vh'}}>
+    <Dialog open={isOpen} onClose={closeModal} sx={{ height: "100vh" }}>
       {/* <Dialog open={!!openEdit} onClose={closeModal}> */}
       <DialogTitle>
         {/* {isEditable ? "Edite o produto" : "Adicione um novo item"}{" "} */}

@@ -14,7 +14,7 @@ export default function Favorite({ product }: { product: Product }) {
         aria-label="edit"
         onClick={() => localProductList.toggleFavorite(product)}
       >
-        <FavoriteIcon sx={{ color: "#AAA" }} />
+        <FavoriteIcon sx={{ color: "primary.main" }} />
       </IconButton>
     );
   return (
@@ -23,7 +23,7 @@ export default function Favorite({ product }: { product: Product }) {
       aria-label="edit"
       onClick={() => localProductList.toggleFavorite(product)}
     >
-      <FavoriteBorderOutlinedIcon sx={{ color: "#AAA" }} />
+      <FavoriteBorderOutlinedIcon sx={{ color: "primary.main" }} />
     </IconButton>
   );
 }

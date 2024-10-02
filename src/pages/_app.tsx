@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import "../styles/global.css";
 import { AppProps } from "next/app";
 import { ShoppingListProvider } from "@/context/shoppingListContext";
+import { ThemeProvider } from "@emotion/react";
+import { muiTheme } from "@/styles/mui-theme";
 
 function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
@@ -23,9 +25,11 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, []);
 
   return (
-    <ShoppingListProvider>
-      <Component {...pageProps} />
-    </ShoppingListProvider>
+    <ThemeProvider theme={muiTheme}>
+      <ShoppingListProvider>
+        <Component {...pageProps} />
+      </ShoppingListProvider>
+    </ThemeProvider>
   );
 }
 

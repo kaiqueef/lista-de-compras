@@ -1,14 +1,29 @@
 import { Product } from "@/types/Product.type";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useLocalStorage } from "./useLocalStorage.hook";
 import useShoppingListType from "./types/useShoppingListType.type";
+import { RemoteStorage } from "remote-storage";
 
 const useShoppingList = (): useShoppingListType => {
   const { get, set } = useLocalStorage();
+  const remoteList = get("lista-remota");
+  const remoteStorage = new RemoteStorage({ userId: remoteList });
+
+  const containsList = get("lista");
+  if (!containsList) loadList();
 
   const [shoppingList, setShoppingList] = useState<Product[] | null>(
     get("lista")
   );
+
+  async function loadList() {
+    const remoteList = (await remoteStorage.getItem("lista")) as Product[];
+    if (remoteList) {
+      set("lista", remoteList);
+      setShoppingList(remoteList);
+    }
+  }
+
   const [_newProduct, setNewProduct] = useState<Product>();
   const [openEdit, _setOpenEdit] = useState<Product | null>(null);
   const [openDialogType, setOpenDialogType] = useState<"add" | "edit" | null>(
