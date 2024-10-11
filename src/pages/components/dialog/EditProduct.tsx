@@ -28,6 +28,7 @@ export default function EditProduct() {
     };
     if (!openEdit) return;
     localProductList.edit("lista", openEdit, newProduct);
+    localProductList.updateRemoteList();
     setName("");
     setRenovalInDays("");
     setPriority(false);

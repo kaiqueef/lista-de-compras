@@ -4,6 +4,10 @@ import { AppProps } from "next/app";
 import { ShoppingListProvider } from "@/context/shoppingListContext";
 import { ThemeProvider } from "@emotion/react";
 import { muiTheme } from "@/styles/mui-theme";
+import { ToastContainer } from "react-toastify";
+import { Flip } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
 
 function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
@@ -29,6 +33,15 @@ function MyApp({ Component, pageProps }: AppProps) {
       <ShoppingListProvider>
         <Component {...pageProps} />
       </ShoppingListProvider>
+
+      <ToastContainer
+        position="bottom-right"
+        theme="dark"
+        autoClose={1000}
+        hideProgressBar
+        closeOnClick
+        transition={Flip}
+      />
     </ThemeProvider>
   );
 }

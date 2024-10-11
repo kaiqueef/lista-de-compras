@@ -11,6 +11,7 @@ type useShoppingListType = {
   >;
   closeModal: () => void;
   localProductList: any;
+  loadRemoteList: () => void;
 };
 
 export default useShoppingListType;

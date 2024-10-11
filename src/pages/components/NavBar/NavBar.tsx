@@ -23,6 +23,7 @@ import { useRouter } from "next/router";
 import { useLocalStorage } from "@/hooks/useLocalStorage.hook";
 import { Product } from "@/types/Product.type";
 import { RemoteStorage } from "remote-storage";
+import { toast } from "react-toastify";
 
 export default function NavBar({
   title = "Lista de Compras",
@@ -31,7 +32,9 @@ export default function NavBar({
   title?: string;
   icon?: ReactNode | null;
 }) {
-  const [openMenu, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [openMenuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(
+    null
+  );
   const [openLoadList, setOpenLoadList] = useState(false);
   const [listName, setListName] = useState("");
 
@@ -40,16 +43,16 @@ export default function NavBar({
   const router = useRouter();
 
   const handleMenu = (event: any) => {
-    setAnchorEl(event.currentTarget);
+    setMenuAnchorEl(event.currentTarget);
   };
 
   const closeMenu = () => {
-    setAnchorEl(null);
+    setMenuAnchorEl(null);
   };
 
   const handleClickAway = (event: any) => {
-    if (openMenu && !openMenu.contains(event.target as Node)) {
-      setAnchorEl(null);
+    if (openMenuAnchorEl && !openMenuAnchorEl.contains(event.target as Node)) {
+      setMenuAnchorEl(null);
     }
   };
 
@@ -59,23 +62,28 @@ export default function NavBar({
   function openModal() {
     setOpenLoadList(true);
   }
-  function handleConfirmLoadList() {
+
+  async function handleConfirmLoadList() {
     set("lista-remota", listName);
-    remove("lista");
+    const remoteStorage = new RemoteStorage({ userId: listName });
+    const remoteList = await remoteStorage.getItem("lista");
+    if (remoteList) {
+      remove("lista");
+      toast.success("Lista Remota Carregada!");
+    } else toast.info("Lista Remota Criada!");
     router.push("/");
     setListName("");
     closeModal();
   }
   const currentRemoteList = get("lista-remota");
 
-  async function saveList() {
-    const remoteStorage = new RemoteStorage({ userId: currentRemoteList });
-    const list: Product[] | null = get("lista");
-    await remoteStorage.setItem("lista", list); //TODO:: ADICIONAR TOAST
-    closeModal();
-  }
   function changePage(page: string) {
     router.push(page);
+    closeMenu();
+  }
+
+  function desvincular() {
+    remove("lista-remota");
     closeMenu();
   }
 
@@ -106,6 +114,12 @@ export default function NavBar({
           </IconButton>
         </Toolbar>
       </AppBar>
+
+      {currentRemoteList && (
+        <Typography variant="caption" textAlign={"center"}>
+          Lista atual: <b>{currentRemoteList}</b>
+        </Typography>
+      )}
       {icon ? (
         <Box>{icon}</Box>
       ) : (
@@ -120,7 +134,7 @@ export default function NavBar({
         <Box>
           <Menu
             id="menu-appbar"
-            anchorEl={openMenu}
+            anchorEl={openMenuAnchorEl}
             anchorOrigin={{
               vertical: "top",
               horizontal: "left",
@@ -130,7 +144,7 @@ export default function NavBar({
               vertical: "top",
               horizontal: "left",
             }}
-            open={Boolean(openMenu)}
+            open={Boolean(openMenuAnchorEl)}
             onClose={closeMenu}
           >
             <MenuItem onClick={() => changePage("/")}>Compras</MenuItem>
@@ -138,22 +152,16 @@ export default function NavBar({
             <MenuItem onClick={() => changePage("/receitas")}>
               Receitas
             </MenuItem>
-            <MenuItem onClick={openModal}>Carregar lista</MenuItem>
-            {currentRemoteList && (
-              <MenuItem onClick={saveList}>Salvar listas</MenuItem>
+            {currentRemoteList ? (
+              <MenuItem onClick={desvincular}>Desvincular lista</MenuItem>
+            ) : (
+              <MenuItem onClick={openModal}>Carregar lista</MenuItem>
             )}
           </Menu>
         </Box>
       </ClickAwayListener>
       <Dialog open={openLoadList} onClose={closeModal} sx={{ height: "100vh" }}>
-        <DialogTitle>
-          Carregar Listas
-          {currentRemoteList && (
-            <DialogTitle sx={{ fontSize: 12, p: 0, opacity: 0.7 }}>
-              Lista atual: <b>{currentRemoteList}</b>
-            </DialogTitle>
-          )}
-        </DialogTitle>
+        <DialogTitle>Carregar Lista</DialogTitle>
         <DialogContent>
           <TextField
             placeholder="Nome da Lista"

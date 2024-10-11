@@ -25,6 +25,7 @@ export default function AddNewProduct() {
       renovalInDays: Number(renovalInDays),
     };
     localProductList.append("lista", newProduct);
+    localProductList.updateRemoteList();
     setName("");
     setRenovalInDays("");
     setPriority(false);
