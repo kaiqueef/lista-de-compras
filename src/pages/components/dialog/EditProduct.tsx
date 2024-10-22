@@ -1,4 +1,9 @@
-import { Checkbox, FormControlLabel, TextField } from "@mui/material";
+import {
+  Checkbox,
+  FormControlLabel,
+  TextField,
+  Typography,
+} from "@mui/material";
 import ProductDialog from "./shared/ProductDialog";
 import { useEffect, useState } from "react";
 import getShoppingContext from "@/context/getShoppingContext";
@@ -22,7 +27,7 @@ export default function EditProduct() {
   function handleConfirm() {
     const newProduct: Product = {
       name,
-      lastBuy: null,
+      lastBuy: openEdit?.lastBuy ?? null,
       priority,
       renovalInDays: Number(renovalInDays),
     };
@@ -35,6 +40,14 @@ export default function EditProduct() {
     closeModal();
     setNewProduct(newProduct);
     setOpenDialogType(null);
+  }
+
+  function formatToDDMMYYYY(dateString: string) {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
   }
 
   useEffect(() => {
@@ -51,6 +64,11 @@ export default function EditProduct() {
       handleConfirm={handleConfirm}
       disableConfirm={!renovalInDays || !name}
     >
+      {openEdit?.lastBuy && (
+        <Typography sx={{ fontSize: 14, mb: 2 }}>
+          Data da última compra: <b>{formatToDDMMYYYY(openEdit?.lastBuy)}</b>
+        </Typography>
+      )}
       <TextField
         autoFocus
         margin="dense"

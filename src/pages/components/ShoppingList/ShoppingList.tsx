@@ -92,6 +92,10 @@ function ShoppingList({ hoje = false }) {
     if (!date) return false;
     const inputDate = new Date(date);
     const currentDate = new Date();
+
+    inputDate.setHours(0, 0, 0, 0);
+    currentDate.setHours(0, 0, 0, 0);
+
     const timeDifference = Math.abs(
       currentDate.getTime() - inputDate.getTime()
     );
