@@ -208,7 +208,8 @@ const useRecipe = (): useRecipeType => {
     const _category = items.find((item) => item.category === category);
     if (!_category) return;
     const _recipe = _category.recipes.find(
-      (recipe) => recipe.name === recipeName
+      (recipe) =>
+        recipe.name.trim().toUpperCase() === recipeName.trim().toUpperCase()
     );
     if (!_recipe) return;
     return _recipe.items;
