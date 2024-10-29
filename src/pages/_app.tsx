@@ -8,6 +8,7 @@ import { ToastContainer } from "react-toastify";
 import { Flip } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
+import { RecipeProvider } from "@/context/recipeContext";
 
 function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
@@ -31,7 +32,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider theme={muiTheme}>
       <ShoppingListProvider>
-        <Component {...pageProps} />
+        <RecipeProvider>
+          <Component {...pageProps} />
+        </RecipeProvider>
       </ShoppingListProvider>
 
       <ToastContainer

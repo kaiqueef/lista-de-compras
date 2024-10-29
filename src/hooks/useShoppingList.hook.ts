@@ -127,7 +127,7 @@ const useShoppingList = (): useShoppingListType => {
     setOpenDialogType,
     closeModal,
     localProductList,
-    loadRemoteList
+    loadRemoteList,
   };
 };
 

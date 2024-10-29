@@ -45,5 +45,25 @@ export const muiTheme = createTheme({
         },
       },
     },
+    MuiAccordion: {
+      styleOverrides: {
+        root: {
+          color: "#CCC",
+          backgroundColor: "#212331",
+          "&.Mui-expanded": {
+            margin: 0,
+          },
+        },
+      },
+    },
+    MuiAccordionDetails: {
+      styleOverrides: {
+        root: {
+          color: "#CCC",
+          backgroundColor: "#212331",
+          marginLeft: 45,
+        },
+      },
+    },
   },
 });

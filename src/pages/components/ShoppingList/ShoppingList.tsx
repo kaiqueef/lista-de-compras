@@ -83,8 +83,6 @@ function ShoppingList({ hoje = false }) {
     list = sortedList;
   }
 
-  //TODO:: ADD TOAST WHEN DELETING ITEM
-
   function isDifferenceGreaterThan(
     date: string | null,
     numberOfDays: number
