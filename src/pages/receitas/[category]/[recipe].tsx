@@ -124,7 +124,7 @@ const RecipePage = () => {
 
   const sortedList = shoppingList.sort((a, b) => {
     if (isChecked(a) === isChecked(b)) {
-      return a.priority ? -1 : 1;
+      return a.name.localeCompare(b.name);
     }
     return isChecked(a) ? 1 : -1;
   });
