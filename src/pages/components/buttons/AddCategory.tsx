@@ -1,26 +1,20 @@
 import { Box, Button } from "@mui/material";
-import AddNewCategory from "../dialog/AddNewCategory";
 import getRecipeContext from "@/context/getRecipeContext";
 
-const AddCategory = () => {
-  const { setOpenDialogType } = getRecipeContext();
-
-  const handleClickOpen = () => {
-    setOpenDialogType("add");
-  };
+const AddCategoryButton = () => {
+  const { recipesPage } = getRecipeContext();
 
   return (
     <Box sx={{ width: "100%", display: "flex" }}>
       <Button
         variant="outlined"
-        onClick={handleClickOpen}
+        onClick={recipesPage.buttons.category.add}
         sx={{ width: "100%", m: 2 }}
       >
         Adicionar Categoria
       </Button>
-      <AddNewCategory />
     </Box>
   );
 };
 
-export default AddCategory;
+export default AddCategoryButton;

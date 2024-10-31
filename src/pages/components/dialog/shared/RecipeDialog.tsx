@@ -6,7 +6,7 @@ import {
   DialogTitle,
 } from "@mui/material";
 
-export default function RecipeDialog({
+export default function RecipeDialog({ //TODO:: JOIN THIS WITH "ProductDialog"
   title,
   closeModal,
   isOpen,
