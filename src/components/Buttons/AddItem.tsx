@@ -1,6 +1,6 @@
 import { Box, Button } from "@mui/material";
 import getShoppingContext from "@/context/getShoppingContext";
-import AddNewProduct from "../dialog/AddNewProduct";
+import AddNewProduct from "../Dialog/AddNewProduct";
 
 const AddItem = () => {
   const { setOpenDialogType } = getShoppingContext();

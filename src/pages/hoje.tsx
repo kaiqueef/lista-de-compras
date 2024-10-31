@@ -1,5 +1,5 @@
-import AddItem from "../components/buttons/AddItem";
-import EditProduct from "../components/dialog/EditProduct";
+import AddItem from "../components/Buttons/AddItem";
+import EditProduct from "../components/Dialog/EditProduct";
 import NavBar from "../components/NavBar/NavBar";
 import ShoppingList from "../components/ShoppingList/ShoppingList";
 
