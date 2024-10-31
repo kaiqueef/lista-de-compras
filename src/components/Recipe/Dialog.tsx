@@ -1,6 +1,6 @@
 import getRecipeContext from "@/context/getRecipeContext";
-import RecipeDialog from "../Dialog/shared/RecipeDialog";
 import { TextField } from "@mui/material";
+import { RecipeDialog } from "../Dialog/shared";
 
 export function Dialog() {
   const { dialog } = getRecipeContext();

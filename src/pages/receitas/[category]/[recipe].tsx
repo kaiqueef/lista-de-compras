@@ -1,4 +1,3 @@
-import NavBar from "@/components/NavBar/NavBar";
 import {
   Box,
   Button,
@@ -13,13 +12,14 @@ import {
 import OutdoorGrillIcon from "@mui/icons-material/OutdoorGrill";
 import { useRouter } from "next/router";
 import { capitalizeString } from "@/utils/formatters";
-import RecipeDialog from "@/components/Dialog/shared/RecipeDialog";
 import { useEffect } from "react";
 import getRecipeContext from "@/context/getRecipeContext";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Product } from "@/types/Product.type";
 import { isChecked } from "@/utils/product";
+import { NavBar } from "@/components";
+import { RecipeDialog } from "@/components/Dialog/shared";
 
 const RecipePage = () => {
   const router = useRouter();

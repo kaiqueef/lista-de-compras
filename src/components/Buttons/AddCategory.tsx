@@ -1,7 +1,7 @@
 import { Box, Button } from "@mui/material";
 import getRecipeContext from "@/context/getRecipeContext";
 
-const AddCategoryButton = () => {
+export function AddCategoryButton() {
   const { recipesPage } = getRecipeContext();
 
   return (
@@ -15,6 +15,4 @@ const AddCategoryButton = () => {
       </Button>
     </Box>
   );
-};
-
-export default AddCategoryButton;
+}

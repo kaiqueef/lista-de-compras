@@ -1,4 +1,3 @@
-import { useLocalStorage } from "@/hooks/useLocalStorage.hook";
 import {
   Button,
   Dialog,
@@ -16,10 +15,10 @@ import React, { useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Product } from "../../types/Product.type";
-import Favorite from "../Buttons/Favorite";
 import getShoppingContext from "@/context/getShoppingContext";
+import { Favorite } from "../Buttons";
 
-function ShoppingList({ hoje = false }) {
+export function ShoppingList({ hoje = false }) {
   const {
     shoppingList,
     setNewProduct,
@@ -158,5 +157,3 @@ function ShoppingList({ hoje = false }) {
     </>
   );
 }
-
-export default ShoppingList;

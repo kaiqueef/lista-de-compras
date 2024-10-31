@@ -1,2 +1,2 @@
-export { List } from "./List";
-export { Dialog } from "./Dialog";
+export * from "./RecipeList";
+export * from "./Dialog";

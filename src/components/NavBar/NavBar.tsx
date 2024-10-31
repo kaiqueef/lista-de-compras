@@ -21,11 +21,10 @@ import { ReactNode, useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useRouter } from "next/router";
 import { useLocalStorage } from "@/hooks/useLocalStorage.hook";
-import { Product } from "@/types/Product.type";
 import { RemoteStorage } from "remote-storage";
 import { toast } from "react-toastify";
 
-export default function NavBar({
+export function NavBar({
   title = "Lista de Compras",
   icon = null,
 }: {

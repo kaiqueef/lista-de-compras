@@ -4,7 +4,7 @@ import { IconButton } from "@mui/material";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import getShoppingContext from "@/context/getShoppingContext";
 
-export default function Favorite({ product }: { product: Product }) {
+export function Favorite({ product }: { product: Product }) {
   const { localProductList } = getShoppingContext();
 
   if (product?.priority)

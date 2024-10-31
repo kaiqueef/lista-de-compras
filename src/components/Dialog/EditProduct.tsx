@@ -4,12 +4,12 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import ProductDialog from "./shared/ProductDialog";
 import { useEffect, useState } from "react";
 import getShoppingContext from "@/context/getShoppingContext";
 import { Product } from "@/types/Product.type";
+import { ProductDialog } from "./shared";
 
-export default function EditProduct() {
+export function EditProduct() {
   const {
     openEdit,
     setNewProduct,

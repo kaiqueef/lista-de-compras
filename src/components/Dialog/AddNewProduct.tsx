@@ -1,10 +1,10 @@
 import { Checkbox, FormControlLabel, TextField } from "@mui/material";
-import ProductDialog from "./shared/ProductDialog";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import getShoppingContext from "@/context/getShoppingContext";
 import { Product } from "@/types/Product.type";
+import { ProductDialog } from "./shared";
 
-export default function AddNewProduct() {
+export function AddNewProduct() {
   const {
     setOpenDialogType,
     openDialogType,
@@ -38,7 +38,7 @@ export default function AddNewProduct() {
     <ProductDialog
       title="Adicionar um produto"
       closeModal={() => setOpenDialogType(null)}
-      isOpen={openDialogType === 'add'}
+      isOpen={openDialogType === "add"}
       handleConfirm={handleConfirm}
       disableConfirm={!renovalInDays || !name}
     >

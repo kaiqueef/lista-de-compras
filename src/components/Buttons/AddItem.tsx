@@ -1,8 +1,8 @@
 import { Box, Button } from "@mui/material";
 import getShoppingContext from "@/context/getShoppingContext";
-import AddNewProduct from "../Dialog/AddNewProduct";
+import { AddNewProduct } from "../Dialog";
 
-const AddItem = () => {
+export function AddItem() {
   const { setOpenDialogType } = getShoppingContext();
 
   const handleClickOpen = () => {
@@ -21,6 +21,4 @@ const AddItem = () => {
       <AddNewProduct />
     </Box>
   );
-};
-
-export default AddItem;
+}

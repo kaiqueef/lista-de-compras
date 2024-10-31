@@ -4,11 +4,10 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Modal,
 } from "@mui/material";
 import getShoppingContext from "@/context/getShoppingContext";
 
-export default function ProductDialog({
+export function ProductDialog({
   title,
   closeModal,
   isOpen,

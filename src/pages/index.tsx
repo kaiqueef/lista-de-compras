@@ -1,9 +1,6 @@
-import ShoppingList from "../components/ShoppingList/ShoppingList";
-import AddItem from "../components/Buttons/AddItem";
-import EditProduct from "../components/Dialog/EditProduct";
-import NavBar from "../components/NavBar/NavBar";
 import { useEffect } from "react";
 import getShoppingContext from "@/context/getShoppingContext";
+import { AddItem, EditProduct, NavBar, ShoppingList } from "@/components";
 
 export default function Page() {
   const { loadRemoteList } = getShoppingContext();

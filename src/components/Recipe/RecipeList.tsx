@@ -13,7 +13,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import Link from "next/link";
 
-export function List() {
+export function RecipeList() {
   const { recipesPage } = getRecipeContext();
 
   return (
