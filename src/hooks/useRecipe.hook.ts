@@ -33,7 +33,6 @@ const useRecipe = (): useRecipeType => {
     const remoteList = (await remoteStorage.getItem(listName)) as Recipe[];
     if (remoteList) {
       set(listName, remoteList);
-      console.log("remoteList: ", remoteList);
       setRecipeList(remoteList);
     }
   }
@@ -59,7 +58,7 @@ const useRecipe = (): useRecipeType => {
         return a.name.localeCompare(b.name);
       });
     });
-    
+
     set(key, newList);
 
     setRecipeList(newList);
@@ -70,32 +69,32 @@ const useRecipe = (): useRecipeType => {
     }
   }
 
-  function itemExists(category: string, recipeName: string, itemName: string) {
-    const items: Recipe[] = get(listName);
-    const _category = items.find((item) =>
-      compareStrings(item.category, category)
-    );
-    if (!_category) return;
-    const _recipe = _category.recipes.find((recipe) =>
-      compareStrings(recipe.name, recipeName)
-    );
-    if (!_recipe) return;
-    return _recipe.items.some((item) => compareStrings(item.name, itemName));
-  }
-
-  function recipeExists(category: string) {
-    const recipe = recipeList?.find((item) =>
-      compareStrings(item.category, category)
-    )?.recipes;
-    return recipe?.some((recipe) => compareStrings(recipe.name, name));
-  }
+  const exists = {
+    category: () =>
+      recipeList?.some((recipe) => compareStrings(recipe.category, name)),
+    recipe: (category: string) => {
+      const recipe = recipeList?.find((item) =>
+        compareStrings(item.category, category)
+      )?.recipes;
+      return recipe?.some((recipe) => compareStrings(recipe.name, name));
+    },
+    item: (category: string, recipeName: string, itemName: string) => {
+      const items: Recipe[] = get(listName);
+      const _category = items.find((item) =>
+        compareStrings(item.category, category)
+      );
+      if (!_category) return;
+      const _recipe = _category.recipes.find((recipe) =>
+        compareStrings(recipe.name, recipeName)
+      );
+      if (!_recipe) return;
+      return _recipe.items.some((item) => compareStrings(item.name, itemName));
+    },
+  };
 
   const add = {
     category: () => {
-      const categoryExists = recipeList?.some((recipe) =>
-        compareStrings(recipe.category, name)
-      );
-      if (categoryExists) {
+      if (exists.category()) {
         throw new Error(`Categoria "${name}" já existe!`);
       }
       const newCategory: Recipe = {
@@ -109,7 +108,7 @@ const useRecipe = (): useRecipeType => {
     recipe: () => {
       const category = openCategory;
       if (!category) return;
-      if (recipeExists(category)) {
+      if (exists.recipe(category)) {
         throw new Error(`Receita "${name}" já existe!`);
       }
       const items: Recipe[] = get(listName);
@@ -122,7 +121,7 @@ const useRecipe = (): useRecipeType => {
     },
     item: () => {
       const { category, recipe: recipeName } = recipePageProps;
-      if (itemExists(category, recipeName, name)) {
+      if (exists.item(category, recipeName, name)) {
         throw new Error(`Ingrediente ${name} já existe!`);
       }
       const items: Recipe[] = get(listName);
@@ -144,6 +143,9 @@ const useRecipe = (): useRecipeType => {
     category: () => {
       const oldCategoryName = openCategory;
       if (!oldCategoryName) return;
+      if (exists.category()) {
+        throw new Error(`Categoria "${name}" já existe!`);
+      }
       const newCategoryName = name;
       const items: Recipe[] = get(listName);
       const newRecipes = items.map((item) => {
@@ -156,6 +158,9 @@ const useRecipe = (): useRecipeType => {
     recipe: () => {
       if (!openCategory || !openRecipe) return;
       const category = openCategory;
+      if (exists.recipe(category)) {
+        throw new Error(`Receita "${name}" já existe!`);
+      }
       const oldRecipeName = openRecipe;
       const newRecipeName = name;
       const items: Recipe[] = get(listName);
@@ -178,6 +183,9 @@ const useRecipe = (): useRecipeType => {
       const itemNewName = name;
       if (!itemOldName) return;
       const { category: categoryName, recipe: recipeName } = recipePageProps;
+      if (exists.item(categoryName, recipeName, name)) {
+        throw new Error(`Ingrediente ${name} já existe!`);
+      }
       const items: Recipe[] = get(listName);
 
       const newRecipeList = items.map((category) => {
@@ -503,7 +511,7 @@ const useRecipe = (): useRecipeType => {
     open: !!openDialog,
     confirm: getHandleConfirm,
     confirmButtonText: _dialog.confirmText[openDialog as openDialogType],
-    disabled: false,
+    disabled: !name,
     placeholder: _dialog.placeholder(),
     value: name,
     onChange: (e: any) => setName(e.target.value),
