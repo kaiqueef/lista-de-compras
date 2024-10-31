@@ -1,4 +1,4 @@
-import NavBar from "@/pages/components/NavBar/NavBar";
+import NavBar from "@/components/NavBar/NavBar";
 import {
   Box,
   Button,
@@ -13,7 +13,7 @@ import {
 import OutdoorGrillIcon from "@mui/icons-material/OutdoorGrill";
 import { useRouter } from "next/router";
 import { capitalizeString } from "@/utils/formatters";
-import RecipeDialog from "@/pages/components/dialog/shared/RecipeDialog";
+import RecipeDialog from "@/components/dialog/shared/RecipeDialog";
 import { useEffect } from "react";
 import getRecipeContext from "@/context/getRecipeContext";
 import DeleteIcon from "@mui/icons-material/Delete";

@@ -1,8 +1,8 @@
-import NavBar from "./components/NavBar/NavBar";
+import NavBar from "../components/NavBar/NavBar";
 import OutdoorGrillIcon from "@mui/icons-material/OutdoorGrill";
 import { Stack } from "@mui/material";
-import AddCategoryButton from "./components/buttons/AddCategory";
-import { Dialog, List } from "./components/Recipe";
+import AddCategoryButton from "../components/buttons/AddCategory";
+import { Dialog, List } from "../components/Recipe";
 import { useEffect } from "react";
 import getRecipeContext from "@/context/getRecipeContext";
 

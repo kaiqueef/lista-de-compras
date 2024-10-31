@@ -15,7 +15,7 @@ import {
 import React, { useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { Product } from "../../../types/Product.type";
+import { Product } from "../../types/Product.type";
 import Favorite from "../buttons/Favorite";
 import getShoppingContext from "@/context/getShoppingContext";
 
