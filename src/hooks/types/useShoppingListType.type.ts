@@ -12,6 +12,7 @@ type useShoppingListType = {
   closeModal: () => void;
   localProductList: any;
   loadRemoteList: () => void;
+  dialogConfirmText: string;
 };
 
 export default useShoppingListType;

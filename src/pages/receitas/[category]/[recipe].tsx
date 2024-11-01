@@ -7,7 +7,6 @@ import {
   ListItemButton,
   ListItemText,
   Stack,
-  TextField,
 } from "@mui/material";
 import OutdoorGrillIcon from "@mui/icons-material/OutdoorGrill";
 import { useRouter } from "next/router";
@@ -18,14 +17,13 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Product } from "@/types/Product.type";
 import { isChecked } from "@/utils/product";
-import { NavBar } from "@/components";
-import { RecipeDialog } from "@/components/Dialog/shared";
+import { NavBar, RecipeDialog } from "@/components";
 
 const RecipePage = () => {
   const router = useRouter();
   const category = router.query.category as string;
   const recipe = router.query.recipe as string;
-  const { recipePage, dialog } = getRecipeContext();
+  const { recipePage } = getRecipeContext();
 
   if (typeof category !== "string" || typeof recipe !== "string") {
     return <div>Invalid category or recipe</div>;
@@ -105,26 +103,7 @@ const RecipePage = () => {
         </List>
       </Stack>
 
-      <RecipeDialog
-        title={dialog.title}
-        closeModal={dialog.close}
-        isOpen={!!dialog.open}
-        handleConfirm={dialog.confirm}
-        confirmText={dialog.confirmButtonText}
-        disableConfirm={dialog.disabled}
-      >
-        {dialog.deleteText || (
-          <TextField
-            autoFocus
-            margin="dense"
-            label={dialog.placeholder}
-            type="text"
-            fullWidth
-            value={dialog.value}
-            onChange={dialog.onChange}
-          />
-        )}
-      </RecipeDialog>
+      <RecipeDialog />
     </>
   );
 };

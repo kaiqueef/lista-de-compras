@@ -1,2 +1,1 @@
-export * from './ProductDialog'
-export * from './RecipeDialog'
+export * from './Dialog'

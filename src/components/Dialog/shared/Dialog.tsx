@@ -1,12 +1,12 @@
 import {
   Button,
-  Dialog,
+  Dialog as MuiDialog,
   DialogActions,
   DialogContent,
   DialogTitle,
 } from "@mui/material";
 
-export function RecipeDialog({ //TODO:: JOIN THIS WITH "ProductDialog"
+export function Dialog({
   title,
   closeModal,
   isOpen,
@@ -24,7 +24,7 @@ export function RecipeDialog({ //TODO:: JOIN THIS WITH "ProductDialog"
   children: any;
 }) {
   return (
-    <Dialog open={isOpen} onClose={closeModal} sx={{ height: "100vh" }}>
+    <MuiDialog open={isOpen} onClose={closeModal} sx={{ height: "100vh" }}>
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>{children}</DialogContent>
 
@@ -34,6 +34,6 @@ export function RecipeDialog({ //TODO:: JOIN THIS WITH "ProductDialog"
           {confirmText}
         </Button>
       </DialogActions>
-    </Dialog>
+    </MuiDialog>
   );
 }

@@ -1,2 +1,2 @@
 export * from "./RecipeList";
-export * from "./Dialog";
+export * from "./RecipeDialog";

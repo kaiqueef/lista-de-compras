@@ -118,6 +118,8 @@ const useShoppingList = (): useShoppingListType => {
     updateRemoteList: updateRemoteList,
   };
 
+  const dialogConfirmText = !!openEdit ? "Atualizar" : "Adicionar"
+
   return {
     shoppingList,
     setNewProduct,
@@ -128,6 +130,7 @@ const useShoppingList = (): useShoppingListType => {
     closeModal,
     localProductList,
     loadRemoteList,
+    dialogConfirmText
   };
 };
 

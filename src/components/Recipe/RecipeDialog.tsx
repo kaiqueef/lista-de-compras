@@ -1,11 +1,11 @@
 import getRecipeContext from "@/context/getRecipeContext";
 import { TextField } from "@mui/material";
-import { RecipeDialog } from "../Dialog/shared";
+import { Dialog } from "../Dialog/shared";
 
-export function Dialog() {
+export function RecipeDialog() {
   const { dialog } = getRecipeContext();
   return (
-    <RecipeDialog
+    <Dialog
       title={dialog.title}
       closeModal={dialog.close}
       isOpen={dialog.open}
@@ -24,6 +24,6 @@ export function Dialog() {
           onChange={dialog.onChange}
         />
       )}
-    </RecipeDialog>
+    </Dialog>
   );
 }

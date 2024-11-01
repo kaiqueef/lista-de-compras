@@ -2,7 +2,7 @@ import { Checkbox, FormControlLabel, TextField } from "@mui/material";
 import { useState } from "react";
 import getShoppingContext from "@/context/getShoppingContext";
 import { Product } from "@/types/Product.type";
-import { ProductDialog } from "./shared";
+import { Dialog } from "./shared";
 
 export function AddNewProduct() {
   const {
@@ -11,6 +11,7 @@ export function AddNewProduct() {
     closeModal,
     setNewProduct,
     localProductList,
+    dialogConfirmText,
   } = getShoppingContext();
 
   const [name, setName] = useState("");
@@ -35,12 +36,13 @@ export function AddNewProduct() {
   }
 
   return (
-    <ProductDialog
+    <Dialog
       title="Adicionar um produto"
       closeModal={() => setOpenDialogType(null)}
       isOpen={openDialogType === "add"}
       handleConfirm={handleConfirm}
       disableConfirm={!renovalInDays || !name}
+      confirmText={dialogConfirmText}
     >
       <TextField
         autoFocus
@@ -68,6 +70,6 @@ export function AddNewProduct() {
         }
         label="Prioritário"
       />
-    </ProductDialog>
+    </Dialog>
   );
 }

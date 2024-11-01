@@ -7,7 +7,7 @@ import {
 import { useEffect, useState } from "react";
 import getShoppingContext from "@/context/getShoppingContext";
 import { Product } from "@/types/Product.type";
-import { ProductDialog } from "./shared";
+import { Dialog } from "./shared";
 
 export function EditProduct() {
   const {
@@ -17,6 +17,7 @@ export function EditProduct() {
     openDialogType,
     closeModal,
     localProductList,
+    dialogConfirmText
   } = getShoppingContext();
   const [name, setName] = useState(openEdit?.name ?? "");
   const [priority, setPriority] = useState(openEdit?.priority);
@@ -57,12 +58,13 @@ export function EditProduct() {
   }, [openEdit]);
 
   return (
-    <ProductDialog
+    <Dialog
       title="Edite o produto"
       closeModal={closeModal}
       isOpen={openDialogType === "edit"}
       handleConfirm={handleConfirm}
       disableConfirm={!renovalInDays || !name}
+      confirmText={dialogConfirmText}
     >
       {openEdit?.lastBuy && (
         <Typography sx={{ fontSize: 14, mb: 2 }}>
@@ -95,6 +97,6 @@ export function EditProduct() {
         }
         label="Prioritário"
       />
-    </ProductDialog>
+    </Dialog>
   );
 }
