@@ -4,6 +4,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  Typography,
 } from "@mui/material";
 
 export function Dialog({
@@ -14,6 +15,7 @@ export function Dialog({
   confirmText,
   disableConfirm,
   children,
+  subtitle,
 }: {
   title: string;
   closeModal: () => void;
@@ -22,10 +24,14 @@ export function Dialog({
   confirmText: string;
   disableConfirm: boolean;
   children: any;
+  subtitle?: any;
 }) {
   return (
     <MuiDialog open={isOpen} onClose={closeModal} sx={{ height: "100vh" }}>
-      <DialogTitle>{title}</DialogTitle>
+      <DialogTitle>
+        {title}
+        {!!subtitle && subtitle}
+      </DialogTitle>
       <DialogContent>{children}</DialogContent>
 
       <DialogActions>

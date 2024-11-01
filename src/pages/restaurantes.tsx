@@ -3,11 +3,12 @@ import { Stack } from "@mui/material";
 import { useEffect } from "react";
 import getRecipeContext from "@/context/getRecipeContext";
 import {
-  AddCategoryButton,
-  RecipeDialog,
-  RecipeList,
+  AddRestaurantsCategoryButton,
   NavBar,
+  RestaurantDialog,
+  RestaurantList,
 } from "@/components";
+import Image from "next/image";
 
 export default function Receitas() {
   const { recipePage } = getRecipeContext();
@@ -21,12 +22,19 @@ export default function Receitas() {
   return (
     <>
       <NavBar
-        title="Receitas"
-        icon={<OutdoorGrillIcon style={{ fontSize: 55, color: "#CCC" }} />}
+        title="Restaurantes"
+        icon={
+          <Image
+            src="/icons/restaurant-icon.png"
+            width={55}
+            height={55}
+            alt="icon"
+          />
+        }
       />
-      <AddCategoryButton />
-      <RecipeList />
-      <RecipeDialog />
+      <AddRestaurantsCategoryButton />
+      <RestaurantList />
+      <RestaurantDialog />
     </>
   );
 }

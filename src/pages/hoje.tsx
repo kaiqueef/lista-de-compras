@@ -4,9 +4,9 @@ export default function Hoje() {
   return (
     <>
       <NavBar title="Lista de Hoje" />
+      <AddItem />
       <ShoppingList hoje />
       <EditProduct />
-      <AddItem />
     </>
   );
 }

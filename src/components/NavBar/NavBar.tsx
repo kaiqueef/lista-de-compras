@@ -115,7 +115,7 @@ export function NavBar({
       </AppBar>
 
       {currentRemoteList && (
-        <Typography variant="caption" textAlign={"center"}>
+        <Typography variant="caption" textAlign={"center"} mb={1}>
           Lista atual: <b>{currentRemoteList}</b>
         </Typography>
       )}
@@ -123,9 +123,9 @@ export function NavBar({
         <Box>{icon}</Box>
       ) : (
         <Image
-          src="/icons/icon-192x192.png"
-          width={70}
-          height={70}
+          src="/icons/default.png"
+          width={60}
+          height={60}
           alt="icon"
         />
       )}
@@ -150,6 +150,9 @@ export function NavBar({
             <MenuItem onClick={() => changePage("/hoje")}>Hoje</MenuItem>
             <MenuItem onClick={() => changePage("/receitas")}>
               Receitas
+            </MenuItem>
+            <MenuItem onClick={() => changePage("/restaurantes")}>
+              Restaurantes
             </MenuItem>
             {currentRemoteList ? (
               <MenuItem onClick={desvincular}>Desvincular lista</MenuItem>

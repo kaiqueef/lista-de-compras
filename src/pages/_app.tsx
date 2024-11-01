@@ -9,6 +9,7 @@ import { Flip } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 import { RecipeProvider } from "@/context/recipeContext";
+import { RestaurantProvider } from "@/context/restaurantContext";
 
 function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
@@ -33,7 +34,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     <ThemeProvider theme={muiTheme}>
       <ShoppingListProvider>
         <RecipeProvider>
-          <Component {...pageProps} />
+          <RestaurantProvider>
+            <Component {...pageProps} />
+          </RestaurantProvider>
         </RecipeProvider>
       </ShoppingListProvider>
 

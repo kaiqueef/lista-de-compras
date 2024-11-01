@@ -1,4 +1,3 @@
-import getRecipeContext from "@/context/getRecipeContext";
 import {
   Accordion,
   AccordionDetails,
@@ -11,20 +10,33 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import Link from "next/link";
+import getRestaurantContext from "@/context/getRestaurantContext";
 
-export function RecipeList() {
-  const { recipesPage } = getRecipeContext();
+import StarIcon from "@mui/icons-material/Star";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
+import StarHalfIcon from "@mui/icons-material/StarHalf";
+
+export function RestaurantList() {
+  const { restaurantsPage } = getRestaurantContext();
+
+  const renderStar = (value: number) => {
+    const newValue = Math.round((value / 5) * 2) / 2;
+    if (newValue === 1)
+      return <StarIcon style={{ fontSize: 20, color: "#CCC" }} />;
+    if (newValue === 0.5)
+      return <StarHalfIcon style={{ fontSize: 20, color: "#CCC" }} />;
+    return <StarBorderIcon style={{ fontSize: 20, color: "#CCC" }} />;
+  };
 
   return (
     <>
-      {recipesPage.list?.map((category) => {
+      {restaurantsPage.list?.map((category) => {
         return (
           <Accordion sx={{ width: "100%" }}>
             <AccordionSummary>
               <Stack
                 onClick={(e) => {
-                  if (!category.recipes.length) e.stopPropagation();
+                  if (!category.restaurants.length) e.stopPropagation();
                 }}
                 sx={{
                   width: "100%",
@@ -47,7 +59,7 @@ export function RecipeList() {
                     fontWeight={700}
                     marginRight={1}
                   >
-                    {category.recipes.length}
+                    {category.restaurants.length}
                   </Box>
                   <Typography>{category?.category}</Typography>
                 </Box>
@@ -56,7 +68,10 @@ export function RecipeList() {
                     edge="end"
                     aria-label="add"
                     onClick={(e) => {
-                      recipesPage.buttons.recipe.add(e, category.category);
+                      restaurantsPage.buttons.restaurant.add(
+                        e,
+                        category.category
+                      );
                     }}
                   >
                     <AddCircleIcon sx={{ color: "primary.main" }} />
@@ -65,7 +80,10 @@ export function RecipeList() {
                     edge="end"
                     aria-label="edit"
                     onClick={(e) => {
-                      recipesPage.buttons.category.edit(e, category.category);
+                      restaurantsPage.buttons.category.edit(
+                        e,
+                        category.category
+                      );
                     }}
                   >
                     <EditIcon sx={{ color: "primary.main" }} />
@@ -74,7 +92,10 @@ export function RecipeList() {
                     edge="end"
                     aria-label="delete"
                     onClick={(e) => {
-                      recipesPage.buttons.category.delete(e, category.category);
+                      restaurantsPage.buttons.category.delete(
+                        e,
+                        category.category
+                      );
                     }}
                   >
                     <DeleteIcon sx={{ color: "primary.main" }} />
@@ -82,45 +103,39 @@ export function RecipeList() {
                 </Box>
               </Stack>
             </AccordionSummary>
-            {category.recipes.map((recipe) => (
-              <AccordionDetails key={recipe.name}>
+            {category.restaurants.map((restaurant) => (
+              <AccordionDetails key={restaurant.name}>
                 <Box
                   sx={{
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",
                   }}
+                  onClick={(e) =>
+                    restaurantsPage.buttons.restaurant.edit(
+                      e,
+                      category.category,
+                      restaurant.name,
+                      restaurant.stars
+                    )
+                  }
                 >
-                  <Box>
-                    <Link
-                      href={`receitas/${category.category}/${recipe.name}`}
-                      style={{ color: "#CCC" }}
-                    >
-                      {recipe.name}
-                    </Link>
+                  <Box sx={{ display: "flex", alignItems: "center", mr: 2 }}>
+                    <Box sx={{ marginRight: 1 }}>
+                      {renderStar(restaurant.stars)}
+                    </Box>
+                    {restaurant.stars.toFixed(1)}
                   </Box>
-                  <Box sx={{minWidth: 56}}>
-                    <IconButton
-                      edge="end"
-                      aria-label="edit"
-                      onClick={(e) => {
-                        recipesPage.buttons.recipe.edit(
-                          e,
-                          category.category,
-                          recipe.name
-                        );
-                      }}
-                    >
-                      <EditIcon sx={{ color: "primary.main" }} />
-                    </IconButton>
+                  <Typography>{restaurant.name}</Typography>
+                  <Box>
                     <IconButton
                       edge="end"
                       aria-label="delete"
                       onClick={(e) => {
-                        recipesPage.buttons.recipe.delete(
+                        restaurantsPage.buttons.restaurant.delete(
                           e,
                           category.category,
-                          recipe.name
+                          restaurant.name
                         );
                       }}
                     >
