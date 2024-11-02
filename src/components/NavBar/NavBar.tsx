@@ -126,7 +126,13 @@ export function NavBar({
         <Box>{icon}</Box>
       ) : (
         <Box onClick={toogleToday}>
-          <Image src="/icons/shopping.png" width={55} height={55} alt="icon" />
+          <Image
+            src="/icons/shopping.png"
+            width={55}
+            height={55}
+            alt="icon"
+            priority={true}
+          />
         </Box>
       )}
       <ClickAwayListener onClickAway={handleClickAway}>

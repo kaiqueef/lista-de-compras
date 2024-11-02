@@ -29,6 +29,7 @@ export default function Receitas() {
             width={55}
             height={55}
             alt="icon"
+            priority={true}
           />
         }
       />
