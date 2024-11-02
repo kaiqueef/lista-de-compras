@@ -23,6 +23,7 @@ import { useRouter } from "next/router";
 import { useLocalStorage } from "@/hooks/useLocalStorage.hook";
 import { RemoteStorage } from "remote-storage";
 import { toast } from "react-toastify";
+import getShoppingContext from "@/context/getShoppingContext";
 
 export function NavBar({
   title = "Lista de Compras",
@@ -31,6 +32,8 @@ export function NavBar({
   title?: string;
   icon?: ReactNode | null;
 }) {
+  const { toogleToday } = getShoppingContext();
+
   const [openMenuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(
     null
   );
@@ -122,12 +125,9 @@ export function NavBar({
       {icon ? (
         <Box>{icon}</Box>
       ) : (
-        <Image
-          src="/icons/default.png"
-          width={60}
-          height={60}
-          alt="icon"
-        />
+        <Box onClick={toogleToday}>
+          <Image src="/icons/shopping.png" width={55} height={55} alt="icon" />
+        </Box>
       )}
       <ClickAwayListener onClickAway={handleClickAway}>
         <Box>
@@ -147,12 +147,11 @@ export function NavBar({
             onClose={closeMenu}
           >
             <MenuItem onClick={() => changePage("/")}>Compras</MenuItem>
-            <MenuItem onClick={() => changePage("/hoje")}>Hoje</MenuItem>
             <MenuItem onClick={() => changePage("/receitas")}>
               Receitas
             </MenuItem>
-            <MenuItem onClick={() => changePage("/restaurantes")}>
-              Restaurantes
+            <MenuItem onClick={() => changePage("/rankings")}>
+              Rankings
             </MenuItem>
             {currentRemoteList ? (
               <MenuItem onClick={desvincular}>Desvincular lista</MenuItem>

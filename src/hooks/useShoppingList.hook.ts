@@ -16,6 +16,11 @@ const useShoppingList = (): useShoppingListType => {
   const [shoppingList, setShoppingList] = useState<Product[] | null>(
     get("lista")
   );
+  const [today, setToday] = useState<boolean>(false);
+
+  function toogleToday() {
+    setToday(!today);
+  }
 
   async function loadRemoteList() {
     const remoteList = (await remoteStorage.getItem("lista")) as Product[];
@@ -118,7 +123,7 @@ const useShoppingList = (): useShoppingListType => {
     updateRemoteList: updateRemoteList,
   };
 
-  const dialogConfirmText = !!openEdit ? "Atualizar" : "Adicionar"
+  const dialogConfirmText = !!openEdit ? "Atualizar" : "Adicionar";
 
   return {
     shoppingList,
@@ -130,7 +135,9 @@ const useShoppingList = (): useShoppingListType => {
     closeModal,
     localProductList,
     loadRemoteList,
-    dialogConfirmText
+    dialogConfirmText,
+    today,
+    toogleToday,
   };
 };
 

@@ -3,16 +3,16 @@ import getShoppingContext from "@/context/getShoppingContext";
 import { AddItem, EditProduct, NavBar, ShoppingList } from "@/components";
 
 export default function Page() {
-  const { loadRemoteList } = getShoppingContext();
+  const { loadRemoteList, today } = getShoppingContext();
   useEffect(() => {
     loadRemoteList();
   }, []);
 
   return (
     <>
-      <NavBar />
+      <NavBar title={today ? "Lista de Hoje" : "Lista de Compras"} />
       <AddItem />
-      <ShoppingList />
+      <ShoppingList hoje={today} />
       <EditProduct />
     </>
   );

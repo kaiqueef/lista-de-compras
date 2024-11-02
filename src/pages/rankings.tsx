@@ -3,10 +3,10 @@ import { Stack } from "@mui/material";
 import { useEffect } from "react";
 import getRecipeContext from "@/context/getRecipeContext";
 import {
-  AddRestaurantsCategoryButton,
+  AddRankingsCategoryButton,
   NavBar,
-  RestaurantDialog,
-  RestaurantList,
+  RankingDialog,
+  RankingList,
 } from "@/components";
 import Image from "next/image";
 
@@ -22,7 +22,7 @@ export default function Receitas() {
   return (
     <>
       <NavBar
-        title="Restaurantes"
+        title="Rankings"
         icon={
           <Image
             src="/icons/restaurant-icon.png"
@@ -32,9 +32,9 @@ export default function Receitas() {
           />
         }
       />
-      <AddRestaurantsCategoryButton />
-      <RestaurantList />
-      <RestaurantDialog />
+      <AddRankingsCategoryButton />
+      <RankingList />
+      <RankingDialog />
     </>
   );
 }

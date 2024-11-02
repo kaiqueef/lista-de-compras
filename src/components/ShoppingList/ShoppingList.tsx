@@ -22,7 +22,6 @@ export function ShoppingList({ hoje = false }) {
   const {
     shoppingList,
     setNewProduct,
-    openEdit,
     setOpenEdit,
     localProductList,
   } = getShoppingContext();

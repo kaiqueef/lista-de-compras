@@ -3,13 +3,13 @@ import { Dialog } from "../Dialog/shared";
 
 import React from "react";
 import { Box, IconButton } from "@mui/material";
-import getRestaurantContext from "@/context/getRestaurantContext";
+import getRankingContext from "@/context/getRankingContext";
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarHalfIcon from "@mui/icons-material/StarHalf";
 
-export function RestaurantDialog() {
-  const { dialog } = getRestaurantContext();
+export function RankingDialog() {
+  const { dialog } = getRankingContext();
   console.log("dialog: ", dialog.subtitle);
 
   const renderStar = (index: number) => {
@@ -32,7 +32,7 @@ export function RestaurantDialog() {
         onChange={dialog.onChange.name}
       />
     ),
-    restaurant: (
+    ranking: (
       <>
         <TextField
           autoFocus
@@ -44,17 +44,16 @@ export function RestaurantDialog() {
           onChange={dialog.onChange.name}
         />
         <TextField
-          autoFocus
           margin="dense"
           label={"Nota"}
           type="number"
           fullWidth
-          value={dialog.value.stars}
+          value={String(dialog.value.stars)}
           onChange={dialog.onChange.stars.text}
         />
       </>
     ),
-    "edit-restaurant-score": (
+    "edit-ranking-score": (
       <>
         <Box display="flex">
           {Array.from({ length: 5 }).map((_, index) => (

@@ -10,14 +10,14 @@ import {
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import getRestaurantContext from "@/context/getRestaurantContext";
+import getRankingContext from "@/context/getRankingContext";
 
 import StarIcon from "@mui/icons-material/Star";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarHalfIcon from "@mui/icons-material/StarHalf";
 
-export function RestaurantList() {
-  const { restaurantsPage } = getRestaurantContext();
+export function RankingList() {
+  const { rankingsPage } = getRankingContext();
 
   const renderStar = (value: number) => {
     const newValue = Math.round((value / 5) * 2) / 2;
@@ -30,13 +30,13 @@ export function RestaurantList() {
 
   return (
     <>
-      {restaurantsPage.list?.map((category) => {
+      {rankingsPage.list?.map((category) => {
         return (
           <Accordion sx={{ width: "100%" }}>
             <AccordionSummary>
               <Stack
                 onClick={(e) => {
-                  if (!category.restaurants.length) e.stopPropagation();
+                  if (!category.rankings.length) e.stopPropagation();
                 }}
                 sx={{
                   width: "100%",
@@ -59,7 +59,7 @@ export function RestaurantList() {
                     fontWeight={700}
                     marginRight={1}
                   >
-                    {category.restaurants.length}
+                    {category.rankings.length}
                   </Box>
                   <Typography>{category?.category}</Typography>
                 </Box>
@@ -68,7 +68,7 @@ export function RestaurantList() {
                     edge="end"
                     aria-label="add"
                     onClick={(e) => {
-                      restaurantsPage.buttons.restaurant.add(
+                      rankingsPage.buttons.ranking.add(
                         e,
                         category.category
                       );
@@ -80,7 +80,7 @@ export function RestaurantList() {
                     edge="end"
                     aria-label="edit"
                     onClick={(e) => {
-                      restaurantsPage.buttons.category.edit(
+                      rankingsPage.buttons.category.edit(
                         e,
                         category.category
                       );
@@ -92,7 +92,7 @@ export function RestaurantList() {
                     edge="end"
                     aria-label="delete"
                     onClick={(e) => {
-                      restaurantsPage.buttons.category.delete(
+                      rankingsPage.buttons.category.delete(
                         e,
                         category.category
                       );
@@ -103,8 +103,8 @@ export function RestaurantList() {
                 </Box>
               </Stack>
             </AccordionSummary>
-            {category.restaurants.map((restaurant) => (
-              <AccordionDetails key={restaurant.name}>
+            {category.rankings.map((ranking) => (
+              <AccordionDetails key={ranking.name}>
                 <Box
                   sx={{
                     display: "flex",
@@ -112,30 +112,30 @@ export function RestaurantList() {
                     alignItems: "center",
                   }}
                   onClick={(e) =>
-                    restaurantsPage.buttons.restaurant.edit(
+                    rankingsPage.buttons.ranking.edit(
                       e,
                       category.category,
-                      restaurant.name,
-                      restaurant.stars
+                      ranking.name,
+                      ranking.stars
                     )
                   }
                 >
                   <Box sx={{ display: "flex", alignItems: "center", mr: 2 }}>
                     <Box sx={{ marginRight: 1 }}>
-                      {renderStar(restaurant.stars)}
+                      {renderStar(ranking.stars)}
                     </Box>
-                    {restaurant.stars.toFixed(1)}
+                    {ranking.stars.toFixed(1)}
                   </Box>
-                  <Typography>{restaurant.name}</Typography>
+                  <Typography>{ranking.name}</Typography>
                   <Box>
                     <IconButton
                       edge="end"
                       aria-label="delete"
                       onClick={(e) => {
-                        restaurantsPage.buttons.restaurant.delete(
+                        rankingsPage.buttons.ranking.delete(
                           e,
                           category.category,
-                          restaurant.name
+                          ranking.name
                         );
                       }}
                     >

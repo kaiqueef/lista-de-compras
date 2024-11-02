@@ -2,36 +2,36 @@ import { useState } from "react";
 import { useLocalStorage } from "./useLocalStorage.hook";
 import { RemoteStorage } from "remote-storage";
 import { toast } from "react-toastify";
-import useRestaurantType, {
+import useRankingType, {
   openDialogType,
-} from "./types/useRestaurantType.type";
+} from "./types/useRankingType.type";
 import { compareStrings } from "@/utils/compareStrings";
-import { Restaurants } from "@/types/Restaurant.type";
+import { Rankings } from "@/types/Ranking.type";
 
-const useRestaurant = (): useRestaurantType => {
+const useRanking = (): useRankingType => {
   const { get, set } = useLocalStorage();
-  const listName = "restaurantes";
+  const listName = "rankings";
   const remoteList = get("lista-remota");
   const remoteStorage = new RemoteStorage({ userId: remoteList });
 
   const containsList = get(listName);
   if (!containsList) loadRemoteList();
 
-  const [restaurantList, setRestaurantList] = useState<Restaurants[]>(
+  const [rankingList, setRankingList] = useState<Rankings[]>(
     get(listName)
   );
   const [name, setName] = useState("");
   const [stars, setStars] = useState<number | "">("");
   const [openDialog, setOpenDialog] = useState<openDialogType | null>(null);
   const [openCategory, setOpenCategory] = useState<string | null>(null);
-  const [openRestaurant, setOpenRestaurant] = useState<string | null>(null);
+  const [openRanking, setOpenRanking] = useState<string | null>(null);
   const [openItem, setOpenItem] = useState<string | null>(null);
 
   async function loadRemoteList() {
-    const remoteList = (await remoteStorage.getItem(listName)) as Restaurants[];
+    const remoteList = (await remoteStorage.getItem(listName)) as Rankings[];
     if (remoteList) {
       set(listName, remoteList);
-      setRestaurantList(remoteList);
+      setRankingList(remoteList);
     }
   }
 
@@ -47,19 +47,19 @@ const useRestaurant = (): useRestaurantType => {
     }
   }
 
-  async function setNewRestaurantList(key: string, newList: Restaurants[]) {
+  async function setNewRankingList(key: string, newList: Rankings[]) {
     newList.sort((a, b) => {
       return a.category.localeCompare(b.category);
     });
     newList.forEach((category) => {
-      category.restaurants.sort((a, b) => {
+      category.rankings.sort((a, b) => {
         return b.stars - a.stars;
       });
     });
 
     set(key, newList);
 
-    setRestaurantList(newList);
+    setRankingList(newList);
     if (remoteList) {
       const remoteStorage = new RemoteStorage({ userId: remoteList }); //TODO:: CHECAR ISSO
       await remoteStorage.setItem(listName, newList);
@@ -69,17 +69,17 @@ const useRestaurant = (): useRestaurantType => {
 
   const exists = {
     category: () =>
-      restaurantList?.some((restaurant) =>
-        compareStrings(restaurant.category, name)
+      rankingList?.some((ranking) =>
+        compareStrings(ranking.category, name)
       ),
-    restaurant: (category: string, caseSensitive = true) => {
-      const restaurant = restaurantList?.find((item) =>
+    ranking: (category: string, caseSensitive = true) => {
+      const ranking = rankingList?.find((item) =>
         compareStrings(item.category, category)
-      )?.restaurants;
-      return restaurant?.some((restaurant) =>
+      )?.rankings;
+      return ranking?.some((ranking) =>
         caseSensitive
-          ? compareStrings(restaurant.name, name)
-          : restaurant.name.trim() === name
+          ? compareStrings(ranking.name, name)
+          : ranking.name.trim() === name
       );
     },
   };
@@ -89,26 +89,26 @@ const useRestaurant = (): useRestaurantType => {
       if (exists.category()) {
         throw new Error(`Categoria "${name}" já existe!`);
       }
-      const newCategory: Restaurants = {
+      const newCategory: Rankings = {
         category: name,
-        restaurants: [],
+        rankings: [],
       };
       const item = get(listName);
       const newItem = item ? [...item, newCategory] : [newCategory];
-      setNewRestaurantList(listName, newItem);
+      setNewRankingList(listName, newItem);
     },
-    restaurant: () => {
+    ranking: () => {
       const category = openCategory;
       if (!category) return;
-      if (exists.restaurant(category)) {
-        throw new Error(`Restaurante "${name}" já existe!`);
+      if (exists.ranking(category)) {
+        throw new Error(`Rankinge "${name}" já existe!`);
       }
-      const items: Restaurants[] = get(listName);
+      const items: Rankings[] = get(listName);
       const _category = items.find((item) =>
         compareStrings(item.category, category)
       );
-      _category?.restaurants.push({ name, stars: Number(stars) });
-      setNewRestaurantList(listName, items);
+      _category?.rankings.push({ name, stars: Number(stars) });
+      setNewRankingList(listName, items);
     },
   };
 
@@ -120,36 +120,36 @@ const useRestaurant = (): useRestaurantType => {
         throw new Error(`Categoria "${name}" já existe!`);
       }
       const newCategoryName = name;
-      const items: Restaurants[] = get(listName);
-      const newRestaurants = items.map((item) => {
+      const items: Rankings[] = get(listName);
+      const newRankings = items.map((item) => {
         if (compareStrings(item.category, oldCategoryName))
           return { ...item, category: newCategoryName };
         return item;
       });
-      setNewRestaurantList(listName, newRestaurants);
+      setNewRankingList(listName, newRankings);
     },
-    restaurant: () => {
-      if (!openCategory || !openRestaurant) return;
+    ranking: () => {
+      if (!openCategory || !openRanking) return;
       const category = openCategory;
       if (stars === "") {
         throw new Error("Insira uma nota válida!");
       }
-      const oldRestaurantName = openRestaurant;
-      const newRestaurantName = name;
-      const items: Restaurants[] = get(listName);
-      const newRestaurants = items.map((item) => {
+      const oldRankingName = openRanking;
+      const newRankingName = name;
+      const items: Rankings[] = get(listName);
+      const newRankings = items.map((item) => {
         if (compareStrings(item.category, category))
           return {
             category: item.category,
-            restaurants: item.restaurants.map((restaurant) => {
-              if (compareStrings(restaurant.name, oldRestaurantName))
-                return { ...restaurant, name: newRestaurantName, stars };
-              return restaurant;
+            rankings: item.rankings.map((ranking) => {
+              if (compareStrings(ranking.name, oldRankingName))
+                return { ...ranking, name: newRankingName, stars };
+              return ranking;
             }),
           };
         return item;
       });
-      setNewRestaurantList(listName, newRestaurants);
+      setNewRankingList(listName, newRankings);
     },
   };
 
@@ -157,31 +157,31 @@ const useRestaurant = (): useRestaurantType => {
     category: () => {
       const categoryName = openCategory;
       if (!categoryName) return;
-      const list: Restaurants[] = get(listName);
+      const list: Rankings[] = get(listName);
       if (!list) return;
       const newList = list.filter(
         (product) => product.category !== categoryName
       );
-      setNewRestaurantList(listName, newList);
+      setNewRankingList(listName, newList);
     },
-    restaurant: () => {
+    ranking: () => {
       if (!openCategory) return;
       const category = openCategory;
-      const restaurantName = name;
-      const list: Restaurants[] = get(listName);
+      const rankingName = name;
+      const list: Rankings[] = get(listName);
       if (!list) return;
       const newList = list.map((categoryitem) => {
         if (compareStrings(categoryitem.category, category)) {
           return {
             category: categoryitem.category,
-            restaurants: categoryitem.restaurants.filter(
-              (restaurant) => restaurant.name !== restaurantName
+            rankings: categoryitem.rankings.filter(
+              (ranking) => ranking.name !== rankingName
             ),
           };
         }
         return categoryitem;
       });
-      setNewRestaurantList(listName, newList);
+      setNewRankingList(listName, newList);
     },
   };
 
@@ -189,9 +189,9 @@ const useRestaurant = (): useRestaurantType => {
     setOpenDialog(null);
     setOpenItem(null);
     setName("");
-    setStars(0);
+    setStars("");
     setOpenCategory(null);
-    setOpenRestaurant(null);
+    setOpenRanking(null);
   }
 
   const handleConfirm = {
@@ -200,20 +200,20 @@ const useRestaurant = (): useRestaurantType => {
       edit: edit.category,
       delete: _delete.category,
     },
-    restaurant: {
-      add: add.restaurant,
-      edit: edit.restaurant,
-      delete: _delete.restaurant,
+    ranking: {
+      add: add.ranking,
+      edit: edit.ranking,
+      delete: _delete.ranking,
     },
   };
 
-  function getRestaurantOrCategory() {
-    if (openRestaurant) return "restaurant";
-    return openCategory && openDialog === "add" ? "restaurant" : "category";
+  function getRankingOrCategory() {
+    if (openRanking) return "ranking";
+    return openCategory && openDialog === "add" ? "ranking" : "category";
   }
 
   function getHandleConfirm() {
-    const level = getRestaurantOrCategory();
+    const level = getRankingOrCategory();
     try {
       handleConfirm[level][openDialog as openDialogType]();
       closeModal();
@@ -227,12 +227,12 @@ const useRestaurant = (): useRestaurantType => {
     placeholder: () => {
       const placeholders = () => {
         //TODO:: IMPROVE THIS
-        if (openRestaurant) {
-          if (openDialog === "edit") return `Nome do restaurante`;
+        if (openRanking) {
+          if (openDialog === "edit") return `Nome do item`;
         }
         if (openDialog === "edit") return "Nome da categoria";
         if (!openCategory) return "Nome da nova categoria";
-        return "Nome do novo restaurante";
+        return "Nome do novo item";
       };
 
       return placeholders();
@@ -248,9 +248,9 @@ const useRestaurant = (): useRestaurantType => {
         edit: "Edição da categoria",
         delete: "Deletar",
       },
-      restaurant: {
-        add: `Novo restaurante`,
-        edit: String(openRestaurant),
+      ranking: {
+        add: `Novo item`,
+        edit: String(openRanking),
         delete: "Deletar",
       },
     },
@@ -260,7 +260,7 @@ const useRestaurant = (): useRestaurantType => {
         edit: "",
         delete: "",
       },
-      restaurant: {
+      ranking: {
         add: openCategory,
         edit: openCategory,
         delete: "",
@@ -274,40 +274,40 @@ const useRestaurant = (): useRestaurantType => {
     category?: string;
     name?: string;
     stars?: number;
-    restaurantName?: string;
+    rankingName?: string;
     openItem?: string;
   }) {
-    const { type, e, category, name, restaurantName, openItem, stars } = props;
+    const { type, e, category, name, rankingName, openItem, stars } = props;
     setOpenDialog(type);
     if (e) e.stopPropagation();
     if (category) setOpenCategory(category);
     if (name) setName(name);
     if (stars) setStars(stars);
-    if (restaurantName) setOpenRestaurant(restaurantName);
+    if (rankingName) setOpenRanking(rankingName);
     if (openItem) setOpenItem(openItem);
   }
 
   const buttons = {
     add: {
       category: () => openModal({ type: "add" }),
-      restaurant: (e: any, category: string) =>
+      ranking: (e: any, category: string) =>
         openModal({ type: "add", e, category }),
     },
     edit: {
       category: (e: any, category: string) =>
         openModal({ type: "edit", e, category, name: category }),
-      restaurant: (
+      ranking: (
         e: any,
         category: string,
-        restaurantName: string,
+        rankingName: string,
         stars: number
       ) => {
         openModal({
           type: "edit",
           e,
           category,
-          restaurantName,
-          name: restaurantName,
+          rankingName,
+          name: rankingName,
           stars,
         });
       },
@@ -315,13 +315,13 @@ const useRestaurant = (): useRestaurantType => {
     delete: {
       category: (e: any, category: string) =>
         openModal({ type: "delete", e, category, name: category }),
-      restaurant: (e: any, category: string, restaurantName: string) =>
+      ranking: (e: any, category: string, rankingName: string) =>
         openModal({
           type: "delete",
           e,
           category,
-          restaurantName,
-          name: restaurantName,
+          rankingName,
+          name: rankingName,
         }),
       item: (e: any, productName: string) =>
         openModal({ type: "delete", e, name: productName }),
@@ -329,12 +329,12 @@ const useRestaurant = (): useRestaurantType => {
   };
 
   function getDialogTitle() {
-    const level = getRestaurantOrCategory();
+    const level = getRankingOrCategory();
     return _dialog.title[level][openDialog as openDialogType];
   }
 
   function getDialogSubTitle() {
-    const level = getRestaurantOrCategory();
+    const level = getRankingOrCategory();
     return _dialog.subtitle[level][openDialog as openDialogType];
   }
 
@@ -342,37 +342,37 @@ const useRestaurant = (): useRestaurantType => {
     if (openDialog !== "delete") return "";
     const text = `Deseja deletar ${
       //TODO:: USE LEVEL
-      openRestaurant ? "o restaurante" : "a categoria"
+      openRanking ? "o ranking_rever" : "a categoria"
     } ${name}?`;
 
     return text;
   }
 
-  const restaurantsPage = {
-    list: restaurantList,
+  const rankingsPage = {
+    list: rankingList,
     buttons: {
       category: {
         add: buttons.add.category,
         edit: buttons.edit.category,
         delete: buttons.delete.category,
       },
-      restaurant: {
-        add: buttons.add.restaurant,
-        edit: buttons.edit.restaurant,
-        delete: buttons.delete.restaurant,
+      ranking: {
+        add: buttons.add.ranking,
+        edit: buttons.edit.ranking,
+        delete: buttons.delete.ranking,
       },
     },
   };
 
   function getDialogType():
     | "delete"
-    | "restaurant"
+    | "ranking"
     | "category"
-    | "edit-restaurant-score" {
+    | "edit-ranking-score" {
     if (getDialogOnDelete()) return "delete";
-    if (getRestaurantOrCategory() === "category") return "category";
-    if (openDialog === "edit") return "edit-restaurant-score";
-    return "restaurant";
+    if (getRankingOrCategory() === "category") return "category";
+    if (openDialog === "edit") return "edit-ranking-score";
+    return "ranking";
   }
   const dialog = {
     title: getDialogTitle(),
@@ -395,7 +395,9 @@ const useRestaurant = (): useRestaurantType => {
           if (Number(newValue) > 5) return setStars(5);
           if (Number(newValue) < 0) return setStars(0);
           if (newValue === "") return setStars("");
-          setStars(Number(newValue.toFixed(2)));
+          console.log("newValue: ", newValue);
+          console.log("Number(Number(newValue).toFixed(2)): ", Number(Number(newValue).toFixed(2)));
+          setStars(Number(Number(newValue).toFixed(2)));
         },
         click: (e: any, index: number) => {
           const { left, width } = e.currentTarget.getBoundingClientRect();
@@ -410,9 +412,9 @@ const useRestaurant = (): useRestaurantType => {
   };
 
   return {
-    restaurantsPage,
+    rankingsPage,
     dialog,
   };
 };
 
-export default useRestaurant;
+export default useRanking;

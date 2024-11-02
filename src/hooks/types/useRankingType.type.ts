@@ -1,32 +1,32 @@
-import { Restaurant, Restaurants } from "@/types/Restaurant.type";
+import { Ranking, Rankings } from "@/types/Ranking.type";
 
-type useRestaurantType = {
-  restaurantsPage: RestaurantsPage;
+type useRankingType = {
+  rankingsPage: RankingsPage;
   dialog: DialogProps;
 };
 
-export default useRestaurantType;
+export default useRankingType;
 
-export interface RestaurantCategory {
+export interface RankingCategory {
   category: string;
 }
-export interface RestaurantsPage {
-  list: Restaurants[];
+export interface RankingsPage {
+  list: Rankings[];
   buttons: {
     category: {
       add: () => void;
       edit: (e: any, categoryName: string) => void;
       delete: (e: any, categoryName: string) => void;
     };
-    restaurant: {
+    ranking: {
       add: (e: any, category: string) => void;
       edit: (
         e: any,
         category: string,
-        restaurantName: string,
+        rankingName: string,
         stars: number
       ) => void;
-      delete: (e: any, category: string, restaurantName: string) => void;
+      delete: (e: any, category: string, rankingName: string) => void;
     };
   };
 }
@@ -52,7 +52,7 @@ interface DialogProps {
     };
   };
   deleteText: string;
-  type: "delete" | "restaurant" | "category" | "edit-restaurant-score";
+  type: "delete" | "ranking" | "category" | "edit-ranking-score";
 }
 
 export type openDialogType = "add" | "edit" | "delete";

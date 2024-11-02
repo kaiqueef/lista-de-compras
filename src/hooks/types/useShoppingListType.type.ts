@@ -13,6 +13,8 @@ type useShoppingListType = {
   localProductList: any;
   loadRemoteList: () => void;
   dialogConfirmText: string;
+  today: boolean;
+  toogleToday: () => void;
 };
 
 export default useShoppingListType;

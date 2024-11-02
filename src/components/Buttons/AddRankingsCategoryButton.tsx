@@ -1,15 +1,15 @@
 import { Box, Button } from "@mui/material";
-import getRestaurantContext from "@/context/getRestaurantContext";
+import getRankingContext from "@/context/getRankingContext";
 
-export function AddRestaurantsCategoryButton() {
+export function AddRankingsCategoryButton() {
   //TODO:: JOIN ALL "ADD" BUTTONS
-  const { restaurantsPage } = getRestaurantContext();
+  const { rankingsPage } = getRankingContext();
 
   return (
     <Box sx={{ width: "100%", display: "flex" }}>
       <Button
         variant="outlined"
-        onClick={restaurantsPage.buttons.category.add}
+        onClick={rankingsPage.buttons.category.add}
         sx={{ width: "100%", m: 2 }}
       >
         Adicionar Categoria
