@@ -1,5 +1,6 @@
 import { Box, styled } from "@mui/material";
 
+const transitionTime = "0.7s";
 export const ShoppingCarWrapper = styled(Box)`
   position: relative;
   overflow: hidden;
@@ -33,13 +34,13 @@ export const Cart = styled(Box)`
   flex-direction: column;
   width: 55px;
   z-index: 5;
-  transition: 1s;
+  transition: ${transitionTime};
   left: 0px;
 `;
 
 export const List = styled(Box)`
   position: absolute;
-  transition: 1s;
+  transition: ${transitionTime};
   top: 60px;
   z-index: 6;
 `;
@@ -56,7 +57,7 @@ const itemDefault = `position: absolute;
   border-radius: 4px;
   z-index: 2; 
   outline: 2px solid #212331;
-  transition: 1s;
+  transition: ${transitionTime};
 
   &::before {
     content: "";

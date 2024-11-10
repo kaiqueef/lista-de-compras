@@ -3,6 +3,7 @@ import { Box, styled } from "@mui/material";
 const pageHeight = 23; //23
 const pageWidth = 20; //20
 const pageDepth = 9; //10
+const transitionTime = "0.7s";
 
 export const RecipesWrapper = styled(Box)(() => ({
   height: "54px",
@@ -10,34 +11,34 @@ export const RecipesWrapper = styled(Box)(() => ({
   position: "relative",
   display: "flex",
   justifyContent: "center",
-  transition: "1s",
+  transition: transitionTime,
   "&.active": {
     height: "59px",
 
     // HAT
     "& .hat": {
       "& .image-wrapper": {
-        transition: "1s",
+        transition: transitionTime,
         top: "0px",
       },
       "& .hide-rat-transition": {
-        transition: "1s",
+        transition: transitionTime,
         transform: "scaleY(1)",
       },
     },
     // BOOK
     "& .book": {
-      transition: "1s",
+      transition: transitionTime,
       perspective: "100px",
       scale: "1.3",
       right: "10px",
       bottom: "-1px",
       "& .pages-left": {
-        transition: "1s",
+        transition: transitionTime,
         transform: "rotateX(-70deg) rotateY(-10deg) translateZ(0px)",
       },
       "& .pages-right": {
-        transition: "1s",
+        transition: transitionTime,
         transform: "rotateX(-70deg) rotateY(10deg)",
       },
     },
@@ -46,35 +47,35 @@ export const RecipesWrapper = styled(Box)(() => ({
   "&:not(.active)": {
     "& .hat": {
       "& .image-wrapper": {
-        transition: "1s",
+        transition: transitionTime,
         top: "100px",
       },
       "& .hide-rat-transition": {
-        transition: "1s",
+        transition: transitionTime,
         transform: "scaleY(5)",
       },
     },
     // BOOK
     "& .book": {
-      transition: "1s",
+      transition: transitionTime,
       perspective: "800px",
       scale: "2.5",
       right: "37px",
       bottom: "0px",
       "& .pages-left": {
-        transition: "1s",
+        transition: transitionTime,
         transform: "rotateX(0deg) rotateY(-90deg) translateZ(-13px)",
         "& .page, & .cover": {
-          transitionDelay: "1s",
+          transitionDelay: transitionTime,
           opacity: 0,
         },
       },
       "& .pages-right": {
-        transition: "1s",
+        transition: transitionTime,
         transform: "rotateX(0deg) rotateY(0deg)",
 
         "& .page": {
-          transitionDelay: "1s",
+          transitionDelay: transitionTime,
           opacity: 0,
         },
       },
