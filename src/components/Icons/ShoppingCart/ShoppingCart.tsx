@@ -14,7 +14,7 @@ export function ShoppingCart() {
       <List className="List">
         <Image
           quality={100}
-          src="/icons/list-icon.png"
+          src="/icons/list-icon2.png"
           width={55}
           height={55}
           alt="icon"
