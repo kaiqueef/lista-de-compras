@@ -24,15 +24,17 @@ import { useLocalStorage } from "@/hooks/useLocalStorage.hook";
 import { RemoteStorage } from "remote-storage";
 import { toast } from "react-toastify";
 import getShoppingContext from "@/context/getShoppingContext";
+import { NavBarOption } from "./styles";
+import { Ranking, Recipes, ShoppingCart } from "../Icons";
 
 export function NavBar({
-  title = "Lista de Compras",
-  icon = null,
+  title,
+  icon,
 }: {
   title?: string;
   icon?: ReactNode | null;
 }) {
-  const { toogleToday } = getShoppingContext();
+  const { page } = getShoppingContext();
 
   const [openMenuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(
     null
@@ -79,7 +81,7 @@ export function NavBar({
   }
   const currentRemoteList = get("lista-remota");
 
-  function changePage(page: string) {
+  function _changePage(page: string) {
     router.push(page);
     closeMenu();
   }
@@ -104,7 +106,7 @@ export function NavBar({
             <ArrowBack />
           </Button>
           <Typography variant="h5" component={"h1"} textAlign={"center"}>
-            {title}
+            {title ? title : page.title}
           </Typography>
           <IconButton
             edge="start"
@@ -123,17 +125,35 @@ export function NavBar({
         </Typography>
       )}
       {icon ? (
-        <Box>{icon}</Box>
+        icon
       ) : (
-        <Box onClick={toogleToday}>
-          <Image
-            src="/icons/shopping.png"
-            width={55}
-            height={55}
-            alt="icon"
-            priority={true}
-          />
-        </Box>
+        <Stack
+          sx={{
+            flexDirection: "row",
+            width: "100%",
+            justifyContent: "space-around",
+          }}
+        >
+          <NavBarOption
+            onClick={() => page.set("rankings")}
+            className={page.current === "rankings" ? "active" : ""}
+          >
+            <Ranking />
+          </NavBarOption>
+
+          <NavBarOption
+            onClick={() => page.set("shopping")}
+            className={page.current === "shopping" ? "active" : ""}
+          >
+            <ShoppingCart />
+          </NavBarOption>
+          <NavBarOption
+            onClick={() => page.set("recipes")}
+            className={page.current === "recipes" ? "active" : ""}
+          >
+            <Recipes />
+          </NavBarOption>
+        </Stack>
       )}
       <ClickAwayListener onClickAway={handleClickAway}>
         <Box>
@@ -152,13 +172,7 @@ export function NavBar({
             open={Boolean(openMenuAnchorEl)}
             onClose={closeMenu}
           >
-            <MenuItem onClick={() => changePage("/")}>Compras</MenuItem>
-            <MenuItem onClick={() => changePage("/receitas")}>
-              Receitas
-            </MenuItem>
-            <MenuItem onClick={() => changePage("/rankings")}>
-              Rankings
-            </MenuItem>
+            <MenuItem onClick={() => _changePage("/")}>Compras</MenuItem>
             {currentRemoteList ? (
               <MenuItem onClick={desvincular}>Desvincular lista</MenuItem>
             ) : (

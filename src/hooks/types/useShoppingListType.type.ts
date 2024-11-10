@@ -14,7 +14,12 @@ type useShoppingListType = {
   loadRemoteList: () => void;
   dialogConfirmText: string;
   today: boolean;
-  toogleToday: () => void;
+  toggleToday: () => void;
+  page: {
+    set: (page: "shopping" | "recipes" | "rankings") => void;
+    current: "shopping" | "recipes" | "rankings";
+    title: string;
+  };
 };
 
 export default useShoppingListType;

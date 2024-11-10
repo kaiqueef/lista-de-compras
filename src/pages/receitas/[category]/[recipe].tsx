@@ -8,7 +8,6 @@ import {
   ListItemText,
   Stack,
 } from "@mui/material";
-import OutdoorGrillIcon from "@mui/icons-material/OutdoorGrill";
 import { useRouter } from "next/router";
 import { capitalizeString } from "@/utils/formatters";
 import { useEffect } from "react";
@@ -18,6 +17,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { Product } from "@/types/Product.type";
 import { isChecked } from "@/utils/product";
 import { NavBar, RecipeDialog } from "@/components";
+import { Recipes } from "@/components/Icons/Recipes";
 
 const RecipePage = () => {
   const router = useRouter();
@@ -46,7 +46,7 @@ const RecipePage = () => {
     <>
       <NavBar
         title={`${capitalizeString(category)} - ${capitalizeString(recipe)}`}
-        icon={<OutdoorGrillIcon style={{ fontSize: 70, color: "#CCC" }} />}
+        icon={<Recipes />}
       />
       <Stack alignItems={"center"}>
         <Box sx={{ width: "100%", display: "flex" }}>

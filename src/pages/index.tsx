@@ -1,19 +1,20 @@
-import { useEffect } from "react";
 import getShoppingContext from "@/context/getShoppingContext";
-import { AddItem, EditProduct, NavBar, ShoppingList } from "@/components";
+import { NavBar } from "@/components";
+import { Rankings, Recipes, Shopping } from "@/views";
 
 export default function Page() {
-  const { loadRemoteList, today } = getShoppingContext();
-  useEffect(() => {
-    loadRemoteList();
-  }, []);
+  const { page } = getShoppingContext();
+
+  const views = {
+    shopping: <Shopping />,
+    recipes: <Recipes />,
+    rankings: <Rankings />,
+  };
 
   return (
     <>
-      <NavBar title={today ? "Lista de Hoje" : "Lista de Compras"} />
-      <AddItem />
-      <ShoppingList hoje={today} />
-      <EditProduct />
+      <NavBar />
+      {views[page.current]}
     </>
   );
 }

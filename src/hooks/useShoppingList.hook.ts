@@ -6,6 +6,9 @@ import { RemoteStorage } from "remote-storage";
 import { toast } from "react-toastify";
 
 const useShoppingList = (): useShoppingListType => {
+  const [currentPage, setCurrentPage] = useState<
+    "shopping" | "recipes" | "rankings"
+  >("shopping");
   const { get, set } = useLocalStorage();
   const remoteList = get("lista-remota");
   const remoteStorage = new RemoteStorage({ userId: remoteList });
@@ -18,7 +21,7 @@ const useShoppingList = (): useShoppingListType => {
   );
   const [today, setToday] = useState<boolean>(false);
 
-  function toogleToday() {
+  function toggleToday() {
     setToday(!today);
   }
 
@@ -125,6 +128,15 @@ const useShoppingList = (): useShoppingListType => {
 
   const dialogConfirmText = !!openEdit ? "Atualizar" : "Adicionar";
 
+  function changePage(page: "shopping" | "recipes" | "rankings") {
+    setCurrentPage(page);
+  }
+  const pageTitles = {
+    shopping: `Lista de ${today ? "Hoje" : "Compras"}`,
+    recipes: "Receitas",
+    rankings: "Rankings",
+  };
+
   return {
     shoppingList,
     setNewProduct,
@@ -137,7 +149,12 @@ const useShoppingList = (): useShoppingListType => {
     loadRemoteList,
     dialogConfirmText,
     today,
-    toogleToday,
+    toggleToday,
+    page: {
+      set: changePage,
+      current: currentPage,
+      title: pageTitles[currentPage],
+    },
   };
 };
 

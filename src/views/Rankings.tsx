@@ -1,8 +1,12 @@
 import { useEffect } from "react";
 import getRecipeContext from "@/context/getRecipeContext";
-import { AddCategoryButton, RecipeDialog, RecipeList } from "@/components";
+import {
+  AddRankingsCategoryButton,
+  RankingDialog,
+  RankingList,
+} from "@/components";
 
-export default function Receitas() {
+export function Rankings() {
   const { recipePage } = getRecipeContext();
   useEffect(() => {
     recipePage.setProps({
@@ -13,9 +17,9 @@ export default function Receitas() {
 
   return (
     <>
-      <AddCategoryButton />
-      <RecipeList />
-      <RecipeDialog />
+      <AddRankingsCategoryButton />
+      <RankingList />
+      <RankingDialog />
     </>
   );
 }
