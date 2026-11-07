@@ -21,9 +21,11 @@ import { ReactNode, useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useRouter } from "next/router";
 import { useLocalStorage } from "@/hooks/useLocalStorage.hook";
-import { RemoteStorage } from "remote-storage";
 import { toast } from "react-toastify";
 import getShoppingContext from "@/context/getShoppingContext";
+import getRecipeContext from "@/context/getRecipeContext";
+import getRankingContext from "@/context/getRankingContext";
+import { REMOTE_LIST_ID_KEY } from "@/services/remoteSync";
 import { NavBarOption } from "./styles";
 import { Ranking, Recipes, ShoppingCart } from "../Icons";
 
@@ -34,7 +36,9 @@ export function NavBar({
   title?: string;
   icon?: ReactNode | null;
 }) {
-  const { page } = getShoppingContext();
+  const { page, loadRemoteList: loadRemoteShoppingList } = getShoppingContext();
+  const { loadRemoteList: loadRemoteRecipes } = getRecipeContext();
+  const { loadRemoteList: loadRemoteRankings } = getRankingContext();
 
   const [openMenuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(
     null
@@ -68,18 +72,21 @@ export function NavBar({
   }
 
   async function handleConfirmLoadList() {
-    set("lista-remota", listName);
-    const remoteStorage = new RemoteStorage({ userId: listName });
-    const remoteList = await remoteStorage.getItem("lista");
-    if (remoteList) {
-      remove("lista");
-      toast.success("Lista Remota Carregada!");
-    } else toast.info("Lista Remota Criada!");
+    set(REMOTE_LIST_ID_KEY, listName.trim());
     router.push("/");
     setListName("");
     closeModal();
+
+    const results = await Promise.all([
+      loadRemoteShoppingList(),
+      loadRemoteRecipes(),
+      loadRemoteRankings(),
+    ]);
+    if (results.includes("error")) return; // o erro já foi mostrado
+    if (results.includes("loaded")) toast.success("Lista Remota Carregada!");
+    else toast.info("Lista Remota Criada!");
   }
-  const currentRemoteList = get("lista-remota");
+  const currentRemoteList = get(REMOTE_LIST_ID_KEY);
 
   function _changePage(page: string) {
     router.push(page);
@@ -87,7 +94,7 @@ export function NavBar({
   }
 
   function desvincular() {
-    remove("lista-remota");
+    remove(REMOTE_LIST_ID_KEY);
     closeMenu();
   }
 
@@ -193,7 +200,7 @@ export function NavBar({
 
         <DialogActions>
           <Button onClick={closeModal}>Cancelar</Button>
-          <Button disabled={!listName} onClick={handleConfirmLoadList}>
+          <Button disabled={!listName.trim()} onClick={handleConfirmLoadList}>
             Carregar
           </Button>
         </DialogActions>

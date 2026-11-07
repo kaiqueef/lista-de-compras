@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocalStorage } from "./useLocalStorage.hook";
-import { RemoteStorage } from "remote-storage";
 import { toast } from "react-toastify";
+import { saveRemote, syncFromRemote } from "@/services/remoteSync";
 import useRankingType, {
   openDialogType,
 } from "./types/useRankingType.type";
@@ -11,11 +11,10 @@ import { Rankings } from "@/types/Ranking.type";
 const useRanking = (): useRankingType => {
   const { get, set } = useLocalStorage();
   const listName = "rankings";
-  const remoteList = get("lista-remota");
-  const remoteStorage = new RemoteStorage({ userId: remoteList });
 
-  const containsList = get(listName);
-  if (!containsList) loadRemoteList();
+  useEffect(() => {
+    loadRemoteList();
+  }, []);
 
   const [rankingList, setRankingList] = useState<Rankings[]>(
     get(listName)
@@ -27,27 +26,14 @@ const useRanking = (): useRankingType => {
   const [openRanking, setOpenRanking] = useState<string | null>(null);
   const [openItem, setOpenItem] = useState<string | null>(null);
 
-  async function loadRemoteList() {
-    const remoteList = (await remoteStorage.getItem(listName)) as Rankings[];
-    if (remoteList) {
+  function loadRemoteList() {
+    return syncFromRemote<Rankings[]>(listName, (remoteList) => {
       set(listName, remoteList);
       setRankingList(remoteList);
-    }
+    });
   }
 
-  async function updateRemoteList() {
-    if (remoteList) {
-      try {
-        const remoteStorage = new RemoteStorage({ userId: remoteList });
-        await remoteStorage.setItem(listName, get(listName));
-        toast.success("Lista atualizada!");
-      } catch {
-        toast.error("Erro ao atualizar lista remota");
-      }
-    }
-  }
-
-  async function setNewRankingList(key: string, newList: Rankings[]) {
+  function setNewRankingList(key: string, newList: Rankings[]) {
     newList.sort((a, b) => {
       return a.category.localeCompare(b.category);
     });
@@ -60,11 +46,7 @@ const useRanking = (): useRankingType => {
     set(key, newList);
 
     setRankingList(newList);
-    if (remoteList) {
-      const remoteStorage = new RemoteStorage({ userId: remoteList }); //TODO:: CHECAR ISSO
-      await remoteStorage.setItem(listName, newList);
-      updateRemoteList();
-    }
+    saveRemote(listName, newList);
   }
 
   const exists = {
@@ -414,6 +396,7 @@ const useRanking = (): useRankingType => {
   return {
     rankingsPage,
     dialog,
+    loadRemoteList,
   };
 };
 

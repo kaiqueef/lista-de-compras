@@ -1,0 +1,13 @@
+{
+  "rules": {
+    "listas": {
+      "$lista": {
+        "$chave": {
+          ".read": "$chave === 'lista' || $chave === 'receitas' || $chave === 'rankings'",
+          ".write": "$chave === 'lista' || $chave === 'receitas' || $chave === 'rankings'",
+          ".validate": "newData.isString() && newData.val().length < 5000000"
+        }
+      }
+    }
+  }
+}

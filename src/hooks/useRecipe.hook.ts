@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocalStorage } from "./useLocalStorage.hook";
-import { RemoteStorage } from "remote-storage";
 import { toast } from "react-toastify";
+import { saveRemote, syncFromRemote } from "@/services/remoteSync";
 import useRecipeType, { openDialogType } from "./types/useRecipeType.type";
 import { Recipe } from "@/types/Recipe.type";
 import { Product } from "@/types/Product.type";
@@ -11,11 +11,10 @@ import { compareStrings } from "@/utils/compareStrings";
 const useRecipe = (): useRecipeType => {
   const { get, set } = useLocalStorage();
   const listName = "receitas";
-  const remoteList = get("lista-remota");
-  const remoteStorage = new RemoteStorage({ userId: remoteList });
 
-  const containsList = get(listName);
-  if (!containsList) loadRemoteList();
+  useEffect(() => {
+    loadRemoteList();
+  }, []);
 
   const [recipeList, setRecipeList] = useState<Recipe[] | null>(get(listName));
   const [name, setName] = useState("");
@@ -29,27 +28,14 @@ const useRecipe = (): useRecipeType => {
   });
   const currentPage = !!recipePageProps.category ? "recipe" : "recipes";
 
-  async function loadRemoteList() {
-    const remoteList = (await remoteStorage.getItem(listName)) as Recipe[];
-    if (remoteList) {
+  function loadRemoteList() {
+    return syncFromRemote<Recipe[]>(listName, (remoteList) => {
       set(listName, remoteList);
       setRecipeList(remoteList);
-    }
+    });
   }
 
-  async function updateRemoteList() {
-    if (remoteList) {
-      try {
-        const remoteStorage = new RemoteStorage({ userId: remoteList });
-        await remoteStorage.setItem(listName, get(listName));
-        toast.success("Lista atualizada!");
-      } catch {
-        toast.error("Erro ao atualizar lista remota");
-      }
-    }
-  }
-
-  async function setNewRecipeList(key: string, newList: Recipe[]) {
+  function setNewRecipeList(key: string, newList: Recipe[]) {
     newList.sort((a, b) => {
       return a.category.localeCompare(b.category);
     });
@@ -62,11 +48,7 @@ const useRecipe = (): useRecipeType => {
     set(key, newList);
 
     setRecipeList(newList);
-    if (remoteList) {
-      const remoteStorage = new RemoteStorage({ userId: remoteList }); //TODO:: CHECAR ISSO
-      await remoteStorage.setItem(listName, newList);
-      updateRemoteList();
-    }
+    saveRemote(listName, newList);
   }
 
   const exists = {
@@ -522,6 +504,7 @@ const useRecipe = (): useRecipeType => {
     recipePage,
     recipesPage,
     dialog,
+    loadRemoteList,
   };
 };
 

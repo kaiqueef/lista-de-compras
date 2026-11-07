@@ -2,19 +2,13 @@ import { Product } from "@/types/Product.type";
 import { useState } from "react";
 import { useLocalStorage } from "./useLocalStorage.hook";
 import useShoppingListType from "./types/useShoppingListType.type";
-import { RemoteStorage } from "remote-storage";
-import { toast } from "react-toastify";
+import { saveRemote, syncFromRemote } from "@/services/remoteSync";
 
 const useShoppingList = (): useShoppingListType => {
   const [currentPage, setCurrentPage] = useState<
     "shopping" | "recipes" | "rankings"
   >("shopping");
   const { get, set } = useLocalStorage();
-  const remoteList = get("lista-remota");
-  const remoteStorage = new RemoteStorage({ userId: remoteList });
-
-  const containsList = get("lista");
-  if (!containsList) loadRemoteList();
 
   const [shoppingList, setShoppingList] = useState<Product[] | null>(
     get("lista")
@@ -25,12 +19,11 @@ const useShoppingList = (): useShoppingListType => {
     setToday(!today);
   }
 
-  async function loadRemoteList() {
-    const remoteList = (await remoteStorage.getItem("lista")) as Product[];
-    if (remoteList) {
+  function loadRemoteList() {
+    return syncFromRemote<Product[]>("lista", (remoteList) => {
       set("lista", remoteList);
       setShoppingList(remoteList);
-    }
+    });
   }
 
   const [_newProduct, setNewProduct] = useState<Product>();
@@ -51,13 +44,10 @@ const useShoppingList = (): useShoppingListType => {
     setOpenEdit(null);
   }
 
-  async function setNewProductList(key: string, newList: Product[]) {
+  function setNewProductList(key: string, newList: Product[]) {
     set(key, newList);
     setShoppingList(newList);
-    if (remoteList) {
-      const remoteStorage = new RemoteStorage({ userId: remoteList });
-      await remoteStorage.setItem("lista", newList);
-    }
+    saveRemote(key, newList);
   }
 
   const appendProduct = (key: string, product: Product) => {
@@ -93,7 +83,6 @@ const useShoppingList = (): useShoppingListType => {
       lastBuy: removeLastBuy ? null : currentDate.toISOString(),
     };
     editProduct(key, product, newProduct);
-    updateRemoteList();
   };
 
   const toggleFavorite = (product: Product) => {
@@ -102,20 +91,7 @@ const useShoppingList = (): useShoppingListType => {
       priority: !product.priority,
     };
     editProduct("lista", product, newProduct);
-    updateRemoteList();
   };
-
-  async function updateRemoteList() {
-    if (remoteList) {
-      try {
-        const remoteStorage = new RemoteStorage({ userId: remoteList });
-        await remoteStorage.setItem("lista", get("lista"));
-        toast.success("Lista atualizada!");
-      } catch {
-        toast.error("Erro ao atualizar lista remota");
-      }
-    }
-  }
 
   const localProductList = {
     append: appendProduct,
@@ -123,7 +99,6 @@ const useShoppingList = (): useShoppingListType => {
     remove: removeProduct,
     updateLastBuy: updateLastBuy,
     toggleFavorite: toggleFavorite,
-    updateRemoteList: updateRemoteList,
   };
 
   const dialogConfirmText = !!openEdit ? "Atualizar" : "Adicionar";

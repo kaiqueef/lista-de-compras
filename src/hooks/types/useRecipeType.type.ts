@@ -1,10 +1,12 @@
 import { Product } from "@/types/Product.type";
 import { Recipe } from "@/types/Recipe.type";
+import { RemoteLoadResult } from "@/services/remoteSync";
 
 type useRecipeType = {
   recipePage: RecipePage;
   recipesPage: RecipesPage;
   dialog: DialogProps;
+  loadRemoteList: () => Promise<RemoteLoadResult>;
 };
 
 export default useRecipeType;

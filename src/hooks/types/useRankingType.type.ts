@@ -1,8 +1,10 @@
 import { Ranking, Rankings } from "@/types/Ranking.type";
+import { RemoteLoadResult } from "@/services/remoteSync";
 
 type useRankingType = {
   rankingsPage: RankingsPage;
   dialog: DialogProps;
+  loadRemoteList: () => Promise<RemoteLoadResult>;
 };
 
 export default useRankingType;

@@ -1,4 +1,5 @@
 import { Product } from "@/types/Product.type";
+import { RemoteLoadResult } from "@/services/remoteSync";
 
 type useShoppingListType = {
   shoppingList: Product[] | null;
@@ -11,7 +12,7 @@ type useShoppingListType = {
   >;
   closeModal: () => void;
   localProductList: any;
-  loadRemoteList: () => void;
+  loadRemoteList: () => Promise<RemoteLoadResult>;
   dialogConfirmText: string;
   today: boolean;
   toggleToday: () => void;
