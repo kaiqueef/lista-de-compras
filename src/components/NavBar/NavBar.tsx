@@ -26,6 +26,9 @@ import { toast } from "react-toastify";
 import getShoppingContext from "@/context/getShoppingContext";
 import { NavBarOption } from "./styles";
 import { Ranking, Recipes, ShoppingCart } from "../Icons";
+import { shareBackup } from "@/utils/shareBackup";
+
+const BACKUP_KEYS = ["lista-remota", "lista", "receitas", "rankings"];
 
 export function NavBar({
   title,
@@ -53,6 +56,16 @@ export function NavBar({
   const closeMenu = () => {
     setMenuAnchorEl(null);
   };
+
+  async function handleShareList() {
+    closeMenu();
+    const result = await shareBackup({
+      exportadoEm: new Date().toISOString(),
+      dados: Object.fromEntries(BACKUP_KEYS.map((key) => [key, get(key) ?? null])),
+    });
+    if (result === "shared") toast.success("Lista compartilhada!");
+    if (result === "downloaded") toast.success("Backup baixado!");
+  }
 
   const handleClickAway = (event: any) => {
     if (openMenuAnchorEl && !openMenuAnchorEl.contains(event.target as Node)) {
@@ -178,6 +191,7 @@ export function NavBar({
             ) : (
               <MenuItem onClick={openModal}>Carregar lista</MenuItem>
             )}
+            <MenuItem onClick={handleShareList}>Compartilhar lista</MenuItem>
           </Menu>
         </Box>
       </ClickAwayListener>
